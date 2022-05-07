@@ -11,18 +11,50 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 public class CAGrid extends GridPane {
     private int CELL_SIZE = 20;
-    private App app;
     private int width, height;
     private Cell[][] cells;
     private LinkedList<Position> updatedPositions;
     private int epoch = 0;
 
-    public CAGrid(App app, int width, int height) {
-        this.app = app;
+    public CAGrid(int width, int height, Class<? extends Cell> cellClass) {
+        this.width = width;
+        this.height = height;
+        this.cells = new Cell[width][height];
+        this.updatedPositions = new LinkedList<>();
+
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+
+                try {
+                    this.cells[i][j] = cellClass.getConstructor().newInstance();
+                } catch (
+                        InstantiationException | IllegalAccessException
+                        | InvocationTargetException | NoSuchMethodException e
+                ) {
+                    e.printStackTrace();
+                }
+
+                this.add(this.cells[i][j], i, j, 1, 1);
+            }
+        }
+
+        this.setGridLinesVisible(true);
+
+        this.setBackground(new Background(new BackgroundFill(
+                Color.DARKGRAY,
+                CornerRadii.EMPTY,
+                Insets.EMPTY
+        )));
+
+        this.applyMooreNeighbourhood();
+    }
+
+    public CAGrid(int width, int height) {
         this.width = width;
         this.height = height;
         this.cells = new Cell[width][height];

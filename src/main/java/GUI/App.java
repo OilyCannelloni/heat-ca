@@ -1,10 +1,14 @@
 package GUI;
 
+import Models.EpidemicCell;
+import Models.EpidemicScenario;
+import Models.ICellType;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +18,7 @@ public class App extends Application {
     private Stage primaryStage;
     private CAGrid grid;
     private Slider speedSlider;
+    private ComboBox<ICellType> typeSelectBox;
     private int simulationUpdatePause, GUIUpdatePause;
 
     @Override
@@ -21,6 +26,10 @@ public class App extends Application {
         this.primaryStage = primaryStage;
 
         this.initialize();
+
+        EpidemicScenario scenario = new EpidemicScenario();
+        this.grid = scenario.build(60, 30);
+
         this.createGUI();
 
         Thread guiUpdateThread = new Thread(this::updateGui);
@@ -46,8 +55,6 @@ public class App extends Application {
     }
 
     private void createGUI() {
-        this.grid = new CAGrid(this, 60, 30);
-
         this.speedSlider = new Slider(1, 100, 30);
         this.speedSlider.setPrefSize(200, 50);
         this.speedSlider.valueProperty().addListener(
@@ -56,6 +63,9 @@ public class App extends Application {
                     System.out.println(newValue.doubleValue());
                 }
         );
+
+        this.typeSelectBox = new ComboBox<>();
+
 
         HBox controlBox = new HBox(this.speedSlider);
         controlBox.setAlignment(Pos.CENTER);
