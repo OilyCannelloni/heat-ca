@@ -1,7 +1,7 @@
 package GUI;
 
-import Backend.Algorithm;
 import Components.Dir;
+import Models.ICellType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class Cell extends StackPane {
+    private ICellType type;
     private Color color;
     private boolean needsUpdate, stateChanged;
     private Cell[] neighbours;
@@ -19,6 +20,15 @@ public class Cell extends StackPane {
         this.setColor(Color.WHITESMOKE);
         this.setOpacity(1.0);
         this.setPrefSize(15, 15);
+    }
+
+    public ICellType getType() {
+        return this.type;
+    }
+
+    public void setType(ICellType type) {
+        this.type = type;
+        this.setStateChanged();
     }
 
     public void addNeighbour(Dir d, Cell cell) {
@@ -49,6 +59,7 @@ public class Cell extends StackPane {
     }
 
     public void beforeUpdate() {
+        this.setColor(this.type.getColor());
     }
 
     public void update() {

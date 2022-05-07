@@ -1,12 +1,10 @@
 package GUI;
 
-import Backend.Algorithm;
 import Components.Dir;
 import Components.Position;
-import Epidemic.EpidemicCell;
-import Epidemic.EpidemicCellType;
+import Models.EpidemicCell;
+import Models.EpidemicCellType;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;

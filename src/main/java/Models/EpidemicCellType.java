@@ -1,8 +1,8 @@
-package Epidemic;
+package Models;
 
 import javafx.scene.paint.Color;
 
-public enum EpidemicCellType {
+public enum EpidemicCellType implements ICellType {
     DEFAULT,
     INFECTED,
     IMMUNE,
