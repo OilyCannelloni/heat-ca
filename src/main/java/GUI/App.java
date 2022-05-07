@@ -62,7 +62,6 @@ public class App extends Application {
         this.speedSlider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     simulationUpdatePause = 1000/newValue.intValue() - 5;
-                    System.out.println(newValue.doubleValue());
                 }
         );
 
