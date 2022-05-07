@@ -1,5 +1,6 @@
 package Models;
 
+import Backend.Algorithm;
 import javafx.scene.paint.Color;
 
 public enum EpidemicCellType implements ICellType {

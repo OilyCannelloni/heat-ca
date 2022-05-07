@@ -26,10 +26,7 @@ public class App extends Application {
         this.primaryStage = primaryStage;
 
         this.initialize();
-
-        EpidemicScenario scenario = new EpidemicScenario();
-        this.grid = scenario.build(60, 30);
-
+        this.buildGrid();
         this.createGUI();
 
         Thread guiUpdateThread = new Thread(this::updateGui);
@@ -37,6 +34,11 @@ public class App extends Application {
 
         Thread simulationThread = new Thread(this::simulation);
         simulationThread.start();
+    }
+
+    private void buildGrid() {
+        EpidemicScenario scenario = new EpidemicScenario();
+        this.grid = scenario.build(60, 30);
     }
 
     private void initialize() {
