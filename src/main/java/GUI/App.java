@@ -1,13 +1,20 @@
 package GUI;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class App extends Application {
     private Stage primaryStage;
     private CAGrid grid;
-
+    private Slider speedSlider;
+    private int simulationUpdatePause, GUIUpdatePause;
 
     @Override
     public void start(Stage primaryStage) {
@@ -23,34 +30,47 @@ public class App extends Application {
         simulationThread.start();
     }
 
+    private void initialize() {
+        this.simulationUpdatePause = 100;
+        this.GUIUpdatePause = 50;
+    }
+
     private void simulation() {
         while (true) {
-            // sleep
             try {
-                Thread.sleep(10);
+                Thread.sleep(simulationUpdatePause);
             } catch (InterruptedException ignore) {}
 
             this.grid.tickAll();
         }
     }
 
-    private void initialize() {
-
-    }
-
     private void createGUI() {
         this.grid = new CAGrid(this, 60, 30);
 
-        Scene scene = new Scene(this.grid);
+        this.speedSlider = new Slider(1, 100, 30);
+        this.speedSlider.setPrefSize(200, 50);
+        this.speedSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    simulationUpdatePause = 1000/newValue.intValue() - 5;
+                    System.out.println(newValue.doubleValue());
+                }
+        );
+
+        HBox controlBox = new HBox(this.speedSlider);
+        controlBox.setAlignment(Pos.CENTER);
+
+        VBox sceneVBox = new VBox(this.grid, controlBox);
+
+        Scene scene = new Scene(sceneVBox);
         this.primaryStage.setScene(scene);
         this.primaryStage.show();
     }
 
     private void updateGui() {
         while (true) {
-            // sleep
             try {
-                Thread.sleep(30);
+                Thread.sleep(GUIUpdatePause);
             } catch (InterruptedException ignore) {}
 
             this.grid.updateAll();
