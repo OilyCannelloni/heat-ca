@@ -18,6 +18,20 @@ public class App extends Application {
 
         Thread guiUpdateThread = new Thread(this::updateGui);
         guiUpdateThread.start();
+
+        Thread simulationThread = new Thread(this::simulation);
+        simulationThread.start();
+    }
+
+    private void simulation() {
+        while (true) {
+            // sleep
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ignore) {}
+
+            this.grid.tickAll();
+        }
     }
 
     private void initialize() {
@@ -25,7 +39,7 @@ public class App extends Application {
     }
 
     private void createGUI() {
-        this.grid = new CAGrid(this, 40, 30);
+        this.grid = new CAGrid(this, 60, 30);
 
         Scene scene = new Scene(this.grid);
         this.primaryStage.setScene(scene);
@@ -36,7 +50,7 @@ public class App extends Application {
         while (true) {
             // sleep
             try {
-                Thread.sleep(500);
+                Thread.sleep(30);
             } catch (InterruptedException ignore) {}
 
             this.grid.updateAll();

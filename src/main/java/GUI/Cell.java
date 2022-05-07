@@ -1,5 +1,7 @@
 package GUI;
 
+import Backend.Algorithm;
+import Components.Dir;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -9,13 +11,18 @@ import javafx.scene.paint.Color;
 
 public class Cell extends StackPane {
     private Color color;
-    private boolean needsUpdate;
+    private boolean needsUpdate, stateChanged;
+    private Cell[] neighbours;
 
     public Cell() {
-        this.setColor(Color.RED);
+        this.neighbours = new Cell[4];
+        this.setColor(Color.WHITESMOKE);
         this.setOpacity(1.0);
         this.setPrefSize(15, 15);
-        this.update();
+    }
+
+    public void addNeighbour(Dir d, Cell cell) {
+        this.neighbours[d.ordinal()] = cell;
     }
 
     public void setColor(Color color) {
@@ -23,11 +30,50 @@ public class Cell extends StackPane {
         this.needsUpdate = true;
     }
 
+    public void setUpdate() {
+        this.needsUpdate = true;
+    }
+
+    public void setStateChanged() {
+        this.setUpdate();
+        this.stateChanged = true;
+    }
+
+    private void clearFlags() {
+        this.needsUpdate = false;
+        this.stateChanged = false;
+    }
+
+    public boolean needsUpdate() {
+        return this.needsUpdate;
+    }
+
+    public void beforeUpdate() {
+    }
+
     public void update() {
+        this.beforeUpdate();
         this.setBackground(new Background(new BackgroundFill(
                 this.color,
                 CornerRadii.EMPTY,
                 Insets.EMPTY
         )));
+    }
+
+    public void onTickBase(int epoch) {
+        if (this.stateChanged) {
+            this.stateChanged = false;
+            return;
+        }
+        this.clearFlags();
+        this.onTick(epoch);
+    }
+
+    public void onTick(int epoch) {
+
+    }
+
+    public Cell getNeighbour(Dir d) {
+        return this.neighbours[d.ordinal()];
     }
 }
