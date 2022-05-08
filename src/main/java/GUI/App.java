@@ -84,7 +84,7 @@ public class App extends Application {
                 Thread.sleep(GUIUpdatePause);
             } catch (InterruptedException ignore) {}
 
-            this.grid.updateAll();
+            this.grid.updateWhereNeeded();
         }
     }
 }

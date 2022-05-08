@@ -54,33 +54,6 @@ public class CAGrid extends GridPane {
         this.applyMooreNeighbourhood();
     }
 
-    public CAGrid(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.cells = new Cell[width][height];
-        this.updatedPositions = new LinkedList<>();
-
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                this.cells[i][j] = new EpidemicCell();
-                this.add(this.cells[i][j], i, j, 1, 1);
-            }
-        }
-
-        EpidemicCell cell = (EpidemicCell) this.get(20, 10);
-        cell.setType(EpidemicCellType.INFECTED);
-
-        this.setGridLinesVisible(true);
-
-        this.setBackground(new Background(new BackgroundFill(
-                Color.DARKGRAY,
-                CornerRadii.EMPTY,
-                Insets.EMPTY
-        )));
-
-        this.applyMooreNeighbourhood();
-    }
-
     public void updateAll() {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {

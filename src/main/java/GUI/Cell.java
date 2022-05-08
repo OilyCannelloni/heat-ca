@@ -45,8 +45,8 @@ public class Cell extends StackPane {
     }
 
     public void setStateChanged() {
-        this.setUpdate();
         this.stateChanged = true;
+        this.needsUpdate = true;
     }
 
     private void clearFlags() {
@@ -76,7 +76,6 @@ public class Cell extends StackPane {
             this.stateChanged = false;
             return;
         }
-        this.clearFlags();
         this.onTick(epoch);
     }
 
