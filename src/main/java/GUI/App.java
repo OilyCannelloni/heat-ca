@@ -4,6 +4,7 @@ import Models.EpidemicCell;
 import Models.EpidemicScenario;
 import Models.ICellType;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
@@ -43,7 +44,7 @@ public class App extends Application {
 
     private void initialize() {
         this.simulationUpdatePause = 100;
-        this.GUIUpdatePause = 50;
+        this.GUIUpdatePause = 15;
     }
 
     private void simulation() {
@@ -84,7 +85,7 @@ public class App extends Application {
                 Thread.sleep(GUIUpdatePause);
             } catch (InterruptedException ignore) {}
 
-            this.grid.updateWhereNeeded();
+            Platform.runLater(() -> this.grid.updateWhereNeeded());
         }
     }
 }
