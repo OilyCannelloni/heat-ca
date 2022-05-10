@@ -105,33 +105,33 @@ public class Cell extends StackPane {
             return Color.rgb(255,13,13);
         }
         if(80 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(228,77,32);
         }
         if(70 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(228,143,32);
         }
         if(60 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(228,182,33);
         }
         if(50 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(157,228,33);
         }
         if(40 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(88,228,33);
         }
         if(30 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(33,228,173);
         }
         if(20 <= curTemp) {
-            return Color.rgb(255,13,13);
+            return Color.rgb(33,212,228);
         }
         if(10 <= curTemp) {
-            return Color.rgb(255, 13, 13);
+            return Color.rgb(33, 118, 228);
         }
         else {
-            return Color.rgb(255,13,13);
+            return Color.rgb(33,43,228);
         }
 
-        return Color.rgb(resultRed, resultGreen, resultBlue);
+        //return Color.rgb(resultRed, resultGreen, resultBlue);
     }
 }
