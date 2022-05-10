@@ -8,15 +8,22 @@ public enum HeatCellType implements ICellType {
     GLASS;
 
     public double getDensity() {
-        switch (this) {
-            case AIR, BRICK, WOOD, GLASS:
-                return 0;
-        }
-        return 0;
+        return switch (this) {
+            case AIR, DEFAULT -> 1.2;
+            case BRICK -> 1000;
+            case WOOD -> 750;
+            case GLASS -> 2500;
+        };
     }
 
-    public double getSepecifcHeat() {
-        return 0;
+
+    public double getSpecificHeat() {
+        return switch (this) {
+            case AIR, DEFAULT -> 1008;
+            case BRICK -> 850;
+            case WOOD -> 1500;
+            case GLASS -> 745;
+        };
     }
 
     public double getHeatGeneratingPower() {
@@ -24,7 +31,13 @@ public enum HeatCellType implements ICellType {
     }
 
     public double getHeatTransferCoefficient() {
-        return 0;
+        return switch (this) {
+            case AIR, DEFAULT -> 0.025;
+            case BRICK -> 0.57;
+            case WOOD -> 0.32;
+            case GLASS -> 1.1;
+        };
     }
+
 
 }

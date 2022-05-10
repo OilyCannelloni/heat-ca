@@ -5,8 +5,10 @@ import javafx.scene.paint.Color;
 public interface ICellType {
     String toString();
     double getDensity();
-    double getSepecifcHeat();
+    double getSpecificHeat();
     double getHeatGeneratingPower();
     double getHeatTransferCoefficient();
+    // Color getColor();
+
 
 }
