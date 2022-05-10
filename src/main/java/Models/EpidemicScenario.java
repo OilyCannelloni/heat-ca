@@ -10,8 +10,14 @@ public class EpidemicScenario extends Scenario {
     @Override
     public CAGrid build(int width, int height) {
         CAGrid grid = super.build(width, height);
-        grid.get(26, 15).setType(HeatCellType.INFECTED);
-        grid.get(4, 6).setType(HeatCellType.INFECTED);
+        for(int i=0; i<width; i++){
+            grid.get(i,0).setType(HeatCellType.BRICK);
+            grid.get(i,height-1).setType(HeatCellType.BRICK);
+        }
+        for(int i=0; i<height; i++){
+            grid.get(0,i).setType(HeatCellType.BRICK);
+            grid.get(width-1,i).setType(HeatCellType.BRICK);
+        }
         return grid;
     }
 }
