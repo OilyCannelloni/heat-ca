@@ -13,7 +13,8 @@ public class Cell extends StackPane {
     private ICellType type;
     private Color color;
     private boolean needsUpdate, stateChanged;
-    private Cell[] neighbours;
+    protected Cell[] neighbours;
+    private double temperature;
 
     public Cell() {
         this.neighbours = new Cell[4];
@@ -86,4 +87,8 @@ public class Cell extends StackPane {
     public Cell getNeighbour(Dir d) {
         return this.neighbours[d.ordinal()];
     }
+
+    public double getTemperature() { return this.temperature;}
+
+    public double setTemperature(double newTemp) { this.temperature = newTemp;}
 }

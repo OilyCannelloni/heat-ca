@@ -1,12 +1,9 @@
 package GUI;
 
-import Models.EpidemicCell;
 import Models.EpidemicScenario;
 import Models.ICellType;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;

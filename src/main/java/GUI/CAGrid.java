@@ -2,8 +2,6 @@ package GUI;
 
 import Components.Dir;
 import Components.Position;
-import Models.EpidemicCell;
-import Models.EpidemicCellType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
