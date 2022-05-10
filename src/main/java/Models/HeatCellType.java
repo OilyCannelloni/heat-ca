@@ -1,8 +1,6 @@
 package Models;
 
-import javafx.scene.paint.Color;
-
-public enum EpidemicCellType implements ICellType {
+public enum HeatCellType implements ICellType {
     DEFAULT,
     AIR,
     BRICK,
