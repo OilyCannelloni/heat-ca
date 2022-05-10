@@ -1,5 +1,8 @@
 package Models;
 
+import java.awt.*;
+import Backend.Algorithm;
+import javafx.scene.paint.Color;
 public enum HeatCellType implements ICellType {
     DEFAULT,
     AIR,
@@ -38,6 +41,4 @@ public enum HeatCellType implements ICellType {
             case GLASS -> 1.1;
         };
     }
-
-
 }

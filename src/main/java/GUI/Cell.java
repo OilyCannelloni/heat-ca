@@ -60,7 +60,7 @@ public class Cell extends StackPane {
     }
 
     public void beforeUpdate() {
-        this.setColor(this.type.getColor());
+        this.setColor(this.getColor());
     }
 
     public void update() {
@@ -90,5 +90,15 @@ public class Cell extends StackPane {
 
     public double getTemperature() { return this.temperature;}
 
-    public double setTemperature(double newTemp) { this.temperature = newTemp;}
+    public void setTemperature(double newTemp) { this.temperature = newTemp;}
+
+    private Color getColor() {
+        Color warmestColor = new Color(255,13,13, 1.0);
+        Color coldestColor = new Color(0,43,142,1.0);
+        double percent = 0.5;
+        int resultRed = (int) (coldestColor.getRed() + percent * (warmestColor.getRed() - coldestColor.getRed()));
+        int resultGreen = (int) (coldestColor.getGreen() + percent * (warmestColor.getGreen() - coldestColor.getGreen()));
+        int resultBlue = (int) (coldestColor.getBlue() + percent * (warmestColor.getBlue() - coldestColor.getBlue()));
+        return new Color(resultRed, resultGreen, resultBlue, 1.0);
+    }
 }
