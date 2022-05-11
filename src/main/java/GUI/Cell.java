@@ -1,6 +1,7 @@
 package GUI;
 
 import Components.Dir;
+import Models.HeatCell;
 import Models.ICellType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -10,11 +11,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
 public class Cell extends StackPane {
+    protected double temperature;
     private ICellType type;
     private Color color;
     private boolean needsUpdate, stateChanged;
     protected Cell[] neighbours;
-    private double temperature;
 
     public Cell() {
         this.neighbours = new Cell[4];
@@ -90,7 +91,10 @@ public class Cell extends StackPane {
 
     public double getTemperature() { return this.temperature;}
 
-    public void setTemperature(double newTemp) { this.temperature = newTemp;}
+    public void setTemperature(double newTemp) {
+        //System.out.println("newTem = " + newTemp);
+        this.temperature = newTemp;
+    }
 
     private Color getColor() {
         /*Color warmestColor = Color.rgb(255,13,13);
@@ -101,31 +105,35 @@ public class Cell extends StackPane {
         int resultBlue = (int) (coldestColor.getBlue() + percent * (warmestColor.getBlue() - coldestColor.getBlue()));
         System.out.println(coldestColor.getRed() + " " + warmestColor.getRed() + " " + resultBlue);*/
         double curTemp = this.getTemperature();
-        if(curTemp >= 90) {
+
+        //System.out.println("curTem color setter = " + curTemp);
+
+        if(curTemp >= 96) {
+            //System.out.println("COKOLWIEK = " + curTemp);
             return Color.rgb(255,13,13);
         }
-        if(80 <= curTemp) {
+        if(90 <= curTemp) {
             return Color.rgb(228,77,32);
         }
         if(70 <= curTemp) {
             return Color.rgb(228,143,32);
         }
-        if(60 <= curTemp) {
+        if(50 <= curTemp) {
             return Color.rgb(228,182,33);
         }
-        if(50 <= curTemp) {
+        if(30 <= curTemp) {
             return Color.rgb(157,228,33);
         }
-        if(40 <= curTemp) {
+        if(20 <= curTemp) {
             return Color.rgb(88,228,33);
         }
-        if(30 <= curTemp) {
+        if(10 <= curTemp) {
             return Color.rgb(33,228,173);
         }
-        if(20 <= curTemp) {
+        if(3 <= curTemp) {
             return Color.rgb(33,212,228);
         }
-        if(10 <= curTemp) {
+        if(0.5 <= curTemp) {
             return Color.rgb(33, 118, 228);
         }
         else {

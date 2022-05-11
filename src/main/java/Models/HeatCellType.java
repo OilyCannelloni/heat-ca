@@ -22,10 +22,10 @@ public enum HeatCellType implements ICellType {
 
     public double getSpecificHeat() {
         return switch (this) {
-            case AIR, DEFAULT -> 1008;
-            case BRICK -> 850;
-            case WOOD -> 1500;
-            case GLASS -> 745;
+            case AIR, DEFAULT -> 1;
+            case BRICK -> 2;
+            case WOOD -> 3;
+            case GLASS -> 4;
         };
     }
 

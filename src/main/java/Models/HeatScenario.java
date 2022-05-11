@@ -24,7 +24,8 @@ public class HeatScenario extends Scenario {
                 grid.get(i,j).setTemperature(100);
             }
         }*/
-        grid.get(20,20).setTemperature(100);
+        grid.get(20,20).setTemperature(10000);
+        grid.get(40, 10).setTemperature(20000);
 
 
         return grid;
