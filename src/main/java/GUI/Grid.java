@@ -82,6 +82,7 @@ public class Grid extends GridPane implements Iterable<Cell> {
                 // Create an instance of cellClass in each field
                 try {
                     this.cells[i][j] = cellClass.getConstructor().newInstance();
+                    this.cells[i][j].setPosition(new Position(i, j));
                 } catch (
                         InstantiationException | IllegalAccessException
                         | InvocationTargetException | NoSuchMethodException e

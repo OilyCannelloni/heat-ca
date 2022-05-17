@@ -1,10 +1,20 @@
 package Models;
 
+import Components.ColorGradient;
 import GUI.Cell;
 import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
     private double temperature;
+    private static final ColorGradient gradient = new ColorGradient(
+            Color.DARKBLUE,
+            Color.WHITE,
+            Color.GREEN,
+            Color.YELLOW,
+            Color.RED,
+            Color.DARKRED,
+            Color.BLACK
+    );
 
     public HeatCell() {
         super();
@@ -13,15 +23,27 @@ public class HeatCell extends Cell {
     }
 
     @Override
+    public HeatCellType getType() {
+        return (HeatCellType) this.type;
+    }
+
+    @Override
     public void onTick(int epoch) {
-        ICellType myType = this.getType();
+        // TODO
+        // if (this.type = grzała) this.doGrzałaStuff()
+        // else if (this.type = naZewnątrz) this.doNothing()
+        // else doDefaultCase()...
+        // TODO konwekcja
+
+        HeatCellType myType = this.getType();
         double newTemperature = this.getTemperature();
         newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         this.setTemperature(newTemperature);
     }
 
     private double heatExchange() {
-        double heatTransferCoef = this.getType().getHeatTransferCoefficient();
+        HeatCellType type = this.getType();
+        double heatTransferCoef = type.getHeatTransferCoefficient();
         double heatBalance = 0;
         double h = 1;
         for(Cell n : this.neighbours) {
@@ -39,36 +61,10 @@ public class HeatCell extends Cell {
     }
 
     public Color getColor() {
-        double curTemp = this.getTemperature();
-        if(curTemp >= 96) {
-            return Color.rgb(255,13,13);
-        }
-        if(90 <= curTemp) {
-            return Color.rgb(228,77,32);
-        }
-        if(70 <= curTemp) {
-            return Color.rgb(228,143,32);
-        }
-        if(50 <= curTemp) {
-            return Color.rgb(228,182,33);
-        }
-        if(30 <= curTemp) {
-            return Color.rgb(157,228,33);
-        }
-        if(20 <= curTemp) {
-            return Color.rgb(88,228,33);
-        }
-        if(10 <= curTemp) {
-            return Color.rgb(33,228,173);
-        }
-        if(3 <= curTemp) {
-            return Color.rgb(33,212,228);
-        }
-        if(0.5 <= curTemp) {
-            return Color.rgb(33, 118, 228);
-        }
-        else {
-            return Color.rgb(33,43,228);
-        }
+        double expectedMinTemp = 10;
+        double expectedMaxTemp = 80;
+        double w1 = (temperature - expectedMinTemp) / (expectedMaxTemp - expectedMinTemp);
+        w1 = Math.min(Math.max(w1, 0), 1);
+        return gradient.getByPercentage(w1);
     }
 }

@@ -1,14 +1,14 @@
 package Models;
-
-import java.awt.*;
-import Backend.Algorithm;
 import javafx.scene.paint.Color;
+
 public enum HeatCellType implements ICellType {
     DEFAULT,
     AIR,
     BRICK,
     WOOD,
     GLASS;
+
+    // TODO add grzała & naZewnątrzNieZmieniająceTempCoś
 
     public double getDensity() {
         return switch (this) {
