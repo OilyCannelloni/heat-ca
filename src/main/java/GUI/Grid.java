@@ -2,6 +2,7 @@ package GUI;
 
 import Components.Dir;
 import Components.Position;
+import Models.HeatCell;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,24 +11,75 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
 import java.util.LinkedList;
 
-public class CAGrid extends GridPane {
-    private int CELL_SIZE = 20;
-    private int width, height;
-    private Cell[][] cells;
-    private LinkedList<Position> updatedPositions;
+/**
+ * Represents the grid in which the simulation takes place.
+ * Only square grid, for now
+ */
+
+public class Grid extends GridPane implements Iterable<Cell> {
+    /**
+     * Iteration mechanics, so that functions like forEach()
+     * could be easily invoked without a million for loops
+     */
+    class GridIterator implements Iterator<Cell> {
+        private int x, y;
+
+        @Override
+        public boolean hasNext() {
+            return y * width + x < size();
+        }
+
+        @Override
+        public Cell next() {
+            Cell ret = get(x, y);
+            if (++x == width) {
+                x = 0;
+                y++;
+            }
+            return ret;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Cannot remove a cell from grid! Consider changing its type");
+        }
+    }
+
+    public int size() {
+        return width * height;
+    }
+
+    @Override
+    public Iterator<Cell> iterator() {
+        return new GridIterator();
+    }
+
+    /**
+     *  Attributes
+     */
+    private final int width, height;
+    private final Cell[][] cells;
     private int epoch = 0;
 
-    public CAGrid(int width, int height, Class<? extends Cell> cellClass) {
+    /**
+     * Creates a new grid
+     * @param width - width of the grid in cells
+     * @param height - height of the grid in cells
+     * @param cellClass - A subclass of Cell, which defines the behavior of a cell
+     *                  in a particular simulation. It should override onTick() and getColor()
+     */
+    public Grid(int width, int height, Class<? extends Cell> cellClass) {
         this.width = width;
         this.height = height;
         this.cells = new Cell[width][height];
-        this.updatedPositions = new LinkedList<>();
 
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
 
+                // Create an instance of cellClass in each field
                 try {
                     this.cells[i][j] = cellClass.getConstructor().newInstance();
                 } catch (
@@ -42,16 +94,17 @@ public class CAGrid extends GridPane {
         }
 
         this.setGridLinesVisible(true);
-
         this.setBackground(new Background(new BackgroundFill(
                 Color.DARKGRAY,
                 CornerRadii.EMPTY,
                 Insets.EMPTY
         )));
-
         this.applyMooreNeighbourhood();
     }
 
+    /**
+     * Updates all cells on grid
+     */
     public void updateAll() {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
@@ -60,6 +113,9 @@ public class CAGrid extends GridPane {
         }
     }
 
+    /**
+     * Updates cells which have the needsUpdate flag set
+     */
     public void updateWhereNeeded() {
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
@@ -69,6 +125,13 @@ public class CAGrid extends GridPane {
         }
     }
 
+
+    /**
+     * Returns a cell at given position
+     * @param x - x coordinate of position
+     * @param y - y coordinate of position
+     * @return - Cell object at (x, y)
+     */
     public Cell get(int x, int y) {
         return this.cells[x][y];
     }
@@ -77,6 +140,10 @@ public class CAGrid extends GridPane {
         return this.cells[position.x][position.y];
     }
 
+    /**
+     * Calls the tick() method of every cell
+     * TODO implement random order of updates
+     */
     public void tickAll() {
         for (int i = 1; i < this.width - 1; i++) {
             for (int j = 1; j < this.height - 1; j++) {
@@ -86,6 +153,9 @@ public class CAGrid extends GridPane {
         this.epoch++;
     }
 
+    /**
+     * Binds the cells to each other
+     */
     private void applyMooreNeighbourhood() {
         for (int i = 1; i < this.width - 1; i++) {
             for (int j = 1; j < this.height - 1; j++) {

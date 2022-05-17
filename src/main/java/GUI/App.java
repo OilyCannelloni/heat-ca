@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private Stage primaryStage;
-    private CAGrid grid;
+    private Grid grid;
     private Slider speedSlider;
     private ComboBox<ICellType> typeSelectBox;
     private int simulationUpdatePause, GUIUpdatePause;
@@ -58,9 +58,7 @@ public class App extends Application {
         this.speedSlider = new Slider(1, 100, 30);
         this.speedSlider.setPrefSize(200, 50);
         this.speedSlider.valueProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    simulationUpdatePause = 1000/newValue.intValue() - 5;
-                }
+                (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 5
         );
 
         this.typeSelectBox = new ComboBox<>();

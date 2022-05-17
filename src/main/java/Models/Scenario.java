@@ -1,6 +1,6 @@
 package Models;
 
-import GUI.CAGrid;
+import GUI.Grid;
 import GUI.Cell;
 
 public abstract class Scenario {
@@ -10,7 +10,7 @@ public abstract class Scenario {
         this.cellClass = cellClass;
     }
 
-    public CAGrid build(int width, int height) {
-        return new CAGrid(width, height, cellClass);
+    public Grid build(int width, int height) {
+        return new Grid(width, height, cellClass);
     }
 }

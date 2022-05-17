@@ -12,6 +12,14 @@ public class HeatCell extends Cell {
         this.setType(HeatCellType.DEFAULT);
     }
 
+    @Override
+    public void onTick(int epoch) {
+        ICellType myType = this.getType();
+        double newTemperature = this.getTemperature();
+        newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
+        this.setTemperature(newTemperature);
+    }
+
     private double heatExchange() {
         double heatTransferCoef = this.getType().getHeatTransferCoefficient();
         double heatBalance = 0;
@@ -22,14 +30,6 @@ public class HeatCell extends Cell {
             heatBalance += (heatTransferCoef * delta_T) / (h * h);
         }
         return heatBalance;
-    }
-
-    @Override
-    public void onTick(int epoch) {
-        ICellType myType = this.getType();
-        double newTemperature = this.getTemperature();
-        newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
-        this.setTemperature(newTemperature);
     }
 
     public double getTemperature() { return this.temperature;}
