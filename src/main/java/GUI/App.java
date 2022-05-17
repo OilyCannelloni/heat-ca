@@ -1,12 +1,9 @@
 package GUI;
 
-import Models.EpidemicCell;
-import Models.EpidemicScenario;
+import Models.HeatScenario;
 import Models.ICellType;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -38,7 +35,7 @@ public class App extends Application {
     }
 
     private void buildGrid() {
-        EpidemicScenario scenario = new EpidemicScenario();
+        HeatScenario scenario = new HeatScenario();
         this.grid = scenario.build(60, 30);
     }
 
