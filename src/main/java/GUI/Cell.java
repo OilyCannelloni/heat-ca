@@ -16,6 +16,7 @@ public class Cell extends StackPane {
     private Color color;
     private boolean needsUpdate, stateChanged;
     protected Cell[] neighbours;
+    protected boolean doColorUpdate = true;
 
     public Cell() {
         this.neighbours = new Cell[4];
@@ -61,7 +62,8 @@ public class Cell extends StackPane {
     }
 
     public void beforeUpdate() {
-        this.setColor(this.getColor());
+        if (doColorUpdate)
+            this.setColor(this.type.getColor());
     }
 
     public void update() {
