@@ -1,5 +1,6 @@
 package Models;
 
+import Components.Position;
 import GUI.CAGrid;
 
 public class HeatScenario extends Scenario {
@@ -24,9 +25,11 @@ public class HeatScenario extends Scenario {
                 grid.get(i,j).setTemperature(100);
             }
         }*/
-        grid.get(20,20).setTemperature(10000);
-        grid.get(40, 10).setTemperature(20000);
-
+        Position[] startingPositions = {new Position(10, 10), new Position(20, 20)};
+        for (Position p : startingPositions) {
+            HeatCell cell = (HeatCell) grid.get(p);
+            cell.setTemperature(10000);
+        }
 
         return grid;
     }

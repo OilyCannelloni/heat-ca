@@ -8,5 +8,5 @@ public interface ICellType {
     double getSpecificHeat();
     double getHeatGeneratingPower();
     double getHeatTransferCoefficient();
-    //Color getColor();
+    Color getColor();
 }

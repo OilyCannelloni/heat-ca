@@ -41,4 +41,9 @@ public enum HeatCellType implements ICellType {
             case GLASS -> 1.1;
         };
     }
+
+    @Override
+    public Color getColor() {
+        return null;
+    }
 }
