@@ -31,6 +31,16 @@ public enum HeatCellType implements ICellType {
         };
     }
 
+    /*public double getSpecificHeat() {
+        return switch (this) {
+            case AIR, DEFAULT -> 1005;
+            case BRICK -> 900;
+            case WOOD -> 2390;
+            case GLASS -> 5200;
+            case HEATER, OUTSIDE -> -1;
+        };
+    }*/
+
     public double getHeatGeneratingPower() {
         return 0;
     }
@@ -43,6 +53,22 @@ public enum HeatCellType implements ICellType {
             case GLASS -> 1.1;
             case HEATER, OUTSIDE -> -1;
         };
+    }
+
+    public double getConvectionCoefficient() {
+        return switch (this) {
+            case AIR, DEFAULT -> 1.5;
+            case BRICK, WOOD, GLASS -> 0;
+            case HEATER, OUTSIDE -> -1;
+        };
+    }
+
+    public double getVolume() {
+        return 0.001; //m3
+    }
+
+    public double deltaTime() {
+        return 1;
     }
 
     @Override
