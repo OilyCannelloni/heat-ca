@@ -6,9 +6,9 @@ public enum HeatCellType implements ICellType {
     AIR,
     BRICK,
     WOOD,
-    GLASS;
-
-    // TODO add grzała & naZewnątrzNieZmieniająceTempCoś
+    GLASS,
+    HEATER,
+    OUTSIDE;
 
     public double getDensity() {
         return switch (this) {
@@ -16,6 +16,7 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 1000;
             case WOOD -> 750;
             case GLASS -> 2500;
+            case HEATER, OUTSIDE -> -1;
         };
     }
 
@@ -26,6 +27,7 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 2;
             case WOOD -> 3;
             case GLASS -> 4;
+            case HEATER, OUTSIDE -> -1;
         };
     }
 
@@ -39,6 +41,7 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 0.57;
             case WOOD -> 0.32;
             case GLASS -> 1.1;
+            case HEATER, OUTSIDE -> -1;
         };
     }
 

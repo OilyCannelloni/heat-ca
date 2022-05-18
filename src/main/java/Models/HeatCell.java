@@ -36,6 +36,9 @@ public class HeatCell extends Cell {
         // TODO konwekcja
 
         HeatCellType myType = this.getType();
+        if(myType == HeatCellType.HEATER || myType == HeatCellType.OUTSIDE){
+            return;
+        }
         double newTemperature = this.getTemperature();
         newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         this.setTemperature(newTemperature);

@@ -25,6 +25,10 @@ public class HeatScenario extends Scenario {
             cell.setTemperature(10000);
         }
 
+        // example of const temperature block
+        HeatCell cell = (HeatCell) grid.get(new Position(15, 15));
+        cell.setType(HeatCellType.HEATER);
+
         return grid;
     }
 }
