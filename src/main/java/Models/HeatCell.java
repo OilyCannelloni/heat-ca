@@ -29,11 +29,26 @@ public class HeatCell extends Cell {
     @Override
     public void onTick(int epoch) {
         HeatCellType myType = this.getType();
+        if(myType == HeatCellType.HEATER || myType == HeatCellType.OUTSIDE){
+            return;
+        }
+        double conventionHeatExchange = convection();
         double newTemperature = this.getTemperature();
         newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
-        this.setTemperature(newTemperature);
+        this.setTemperature(newTemperature + conventionHeatExchange);
     }
+    private double convection() {
+        System.out.println("CONEVETION BEGIN " + this.getTemperature());
+        HeatCellType myType = this.getType();
+        double alphaPrim = myType.getConvectionCoefficient() / (myType.getVolume() * myType.getDensity() * myType.getSpecificHeat());
 
+        HeatCell lowerNeighbour = (HeatCell) this.neighbours[2];
+        HeatCell upperNeighbour = (HeatCell) this.neighbours[0];
+        double conventionChange = this.getTemperature() + alphaPrim * (this.getTemperature() - lowerNeighbour.getTemperature()) * myType.deltaTime();
+        conventionChange += this.getTemperature() - alphaPrim * (upperNeighbour.getTemperature() - this.getTemperature()) * myType.deltaTime();
+        System.out.println("CONEVETION END " + this.getTemperature());
+        return conventionChange;
+    }
     private double heatExchange() {
         HeatCellType type = this.getType();
         double heatTransferCoef = type.getHeatTransferCoefficient();
