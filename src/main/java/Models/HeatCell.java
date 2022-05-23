@@ -1,10 +1,11 @@
 package Models;
 
 import Components.ColorGradient;
+import Components.Dir;
 import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
-    private static boolean doConvection = false;
+    private final static boolean doConvection = false;
 
     private double temperature;
     private static final ColorGradient gradient = new ColorGradient(
@@ -45,8 +46,8 @@ public class HeatCell extends Cell {
         HeatCellType myType = this.getType();
         double alphaPrim = myType.getConvectionCoefficient() / (myType.getVolume() * myType.getDensity() * myType.getSpecificHeat());
 
-        HeatCell lowerNeighbour = (HeatCell) this.neighbours[2];
-        HeatCell upperNeighbour = (HeatCell) this.neighbours[0];
+        HeatCell lowerNeighbour = (HeatCell) getNeighbour(Dir.DOWN);
+        HeatCell upperNeighbour = (HeatCell) getNeighbour(Dir.UP);
         double conventionChange = this.getTemperature() + alphaPrim * (this.getTemperature() - lowerNeighbour.getTemperature()) * myType.deltaTime();
         conventionChange += this.getTemperature() - alphaPrim * (upperNeighbour.getTemperature() - this.getTemperature()) * myType.deltaTime();
         System.out.println("CONEVETION END " + this.getTemperature());
@@ -58,7 +59,7 @@ public class HeatCell extends Cell {
         double heatTransferCoef = type.getHeatTransferCoefficient();
         double heatBalance = 0;
         double h = 1;
-        for(Cell n : this.neighbours) {
+        for(Cell n : this.getNeighbours()) {
             if (n == null) continue;
             HeatCell neighbour = (HeatCell) n;
             double delta_T = neighbour.getTemperature() - this.getTemperature();

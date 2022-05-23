@@ -9,16 +9,22 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.function.Consumer;
+
 public abstract class Cell implements ICell {
     protected ICellType type;
     protected Color color;
     private boolean needsUpdate, stateChanged;
-    protected Cell[] neighbours;
+    private final HashMap<Dir, Cell> neighbours;
     protected boolean doColorUpdate = true;
     protected Position position;
 
     public Cell() {
-        this.neighbours = new Cell[6];
+        this.neighbours = new HashMap<>();
     }
 
     public ICellType getType() {
@@ -39,7 +45,11 @@ public abstract class Cell implements ICell {
     }
 
     public void addNeighbour(Dir d, Cell cell) {
-        this.neighbours[d.ordinal()] = cell;
+        this.neighbours.put(d, cell);
+    }
+
+    public Collection<Cell> getNeighbours() {
+        return neighbours.values();
     }
 
     public void setColor(Color color) {
@@ -78,6 +88,6 @@ public abstract class Cell implements ICell {
     }
 
     public Cell getNeighbour(Dir d) {
-        return this.neighbours[d.ordinal()];
+        return this.neighbours.get(d);
     }
 }
