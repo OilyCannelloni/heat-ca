@@ -55,21 +55,23 @@ public class App extends Application {
     }
 
     private void createGUI() {
-        Slider speedSlider = new Slider(1, 100, 30);
-        speedSlider.setPrefSize(200, 50);
-        speedSlider.valueProperty().addListener(
+        NamedValueSlider speedSlider = new NamedValueSlider("Simulation Speed [ticks/s]", 1, 100, 30);
+        speedSlider.slider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 5
         );
+        speedSlider.slider.setShowTickLabels(true);
+        speedSlider.slider.setShowTickMarks(true);
 
-        Slider layerSlider = new Slider(0, displayGrid.gridStack.size() - 1, 0);
-        layerSlider.setPrefSize(200, 50);
-        layerSlider.valueProperty().addListener(
-                (observable, oldValue, newValue) -> this.displayGrid.gridStack.setActiveIndex(newValue.intValue())
+        NamedValueSlider layerSlider = new NamedValueSlider(
+                "Layer",0, displayGrid.gridStack.size() - 1, 0
         );
-        layerSlider.setMajorTickUnit(1);
-        layerSlider.setBlockIncrement(1);
-
-        // this.typeSelectBox = new ComboBox<>();
+        layerSlider.slider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> displayGrid.gridStack.setActiveIndex(newValue.intValue())
+        );
+        layerSlider.slider.setShowTickMarks(true);
+        layerSlider.slider.setShowTickLabels(true);
+        layerSlider.slider.setMinorTickCount(0);
+        layerSlider.slider.setSnapToTicks(true);
 
         HBox controlBox = new HBox(speedSlider, layerSlider);
         controlBox.setAlignment(Pos.CENTER);
