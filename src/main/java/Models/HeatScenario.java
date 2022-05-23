@@ -25,4 +25,19 @@ public class HeatScenario extends Scenario {
 
         return grid;
     }
+
+
+    @Override
+    public GridStack build(int width, int height, int depth) {
+        GridStack grid3d = super.build(width, height, depth);
+
+        grid3d.forEach(grid -> grid.forEach(cell -> {
+            HeatCell heatCell = (HeatCell) cell;
+            heatCell.setTemperature(20);
+        }));
+
+        ((HeatCell) grid3d.getCell(10, 10, 0)).setTemperature(10000);
+
+        return grid3d;
+    }
 }

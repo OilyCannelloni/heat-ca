@@ -40,7 +40,7 @@ public class DisplayGrid extends GridPane implements Iterable<DisplayCell> {
 
     private final int width, height;
     private final DisplayCell[][] displayCells;
-    public final GridStack gridStack;
+    public GridStack gridStack;
 
     public DisplayGrid(int width, int height) {
         this.width = width;

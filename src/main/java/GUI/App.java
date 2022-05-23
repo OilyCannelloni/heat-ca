@@ -1,6 +1,5 @@
 package GUI;
 
-import Models.Grid;
 import Models.HeatScenario;
 import Models.ICellType;
 import javafx.application.Application;
@@ -38,8 +37,7 @@ public class App extends Application {
 
     private void buildGrid() {
         HeatScenario scenario = new HeatScenario();
-        Grid grid = scenario.build(60, 30);
-        this.displayGrid.gridStack.addConnectedLayer(grid);
+        this.displayGrid.gridStack = scenario.build(60, 30, 3);
     }
 
     private void initialize() {
