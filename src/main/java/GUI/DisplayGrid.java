@@ -1,6 +1,7 @@
 package GUI;
 
 
+import Models.Cell;
 import Models.Grid;
 import Models.GridStack;
 import javafx.geometry.Insets;
@@ -10,6 +11,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class DisplayGrid extends GridPane implements Iterable<DisplayCell> {
@@ -80,9 +83,24 @@ public class DisplayGrid extends GridPane implements Iterable<DisplayCell> {
         Grid activeGrid = this.gridStack.getActiveGrid();
         for (int i = 0; i < this.width; i++) {
             for (int j = 0; j < this.height; j++) {
-                Color color = activeGrid.get(i, j).getColor();
+                Cell cell = activeGrid.get(i, j);
+                Color color = cell.getColor();
                 this.get(i, j).setColor(color);
             }
+        }
+    }
+
+    public void updateAllInRandomOrder() {
+        Grid activeGrid = this.gridStack.getActiveGrid();
+        ArrayList<Integer> order = new ArrayList<>();
+        for (int i = 0; i < size(); i++) {
+            order.add(i);
+        }
+        Collections.shuffle(order);
+        for (int i : order) {
+            Cell cell = activeGrid.get(i % width, i / width);
+            Color color = cell.getColor();
+            this.get(i % width, i / width).setColor(color);
         }
     }
 }

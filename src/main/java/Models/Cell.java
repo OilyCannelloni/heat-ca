@@ -2,26 +2,14 @@ package Models;
 
 import Components.Dir;
 import Components.Position;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.function.Consumer;
 
 public abstract class Cell implements ICell {
-    protected ICellType type;
-    protected Color color;
-    private boolean needsUpdate, stateChanged;
+    private ICellType type;
+    private boolean stateChanged;
     private final HashMap<Dir, Cell> neighbours;
-    protected boolean doColorUpdate = true;
-    protected Position position;
+    private Position position;
 
     public Cell() {
         this.neighbours = new HashMap<>();
@@ -48,35 +36,16 @@ public abstract class Cell implements ICell {
         this.neighbours.put(d, cell);
     }
 
+    public Cell getNeighbour(Dir d) {
+        return this.neighbours.get(d);
+    }
+
     public Collection<Cell> getNeighbours() {
         return neighbours.values();
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-        this.needsUpdate = true;
-    }
-
-    public void setUpdate() {
-        this.needsUpdate = true;
-    }
-
     public void setStateChanged() {
         this.stateChanged = true;
-        this.needsUpdate = true;
-    }
-
-    private void clearFlags() {
-        this.needsUpdate = false;
-        this.stateChanged = false;
-    }
-
-    public boolean needsUpdate() {
-        return this.needsUpdate;
-    }
-
-    public void beforeUpdate() {
-        this.color = this.getColor();
     }
 
     public void onTickBase(int epoch) {
@@ -85,9 +54,5 @@ public abstract class Cell implements ICell {
             return;
         }
         this.onTick(epoch);
-    }
-
-    public Cell getNeighbour(Dir d) {
-        return this.neighbours.get(d);
     }
 }

@@ -20,13 +20,12 @@ public class HeatCell extends Cell {
 
     public HeatCell() {
         super();
-        this.doColorUpdate = false;
         this.setType(HeatCellType.DEFAULT);
     }
 
     @Override
     public HeatCellType getType() {
-        return (HeatCellType) this.type;
+        return (HeatCellType) super.getType();
     }
 
     @Override
