@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 public class App extends Application {
     private Stage primaryStage;
     private DisplayGrid displayGrid;
-    private Slider speedSlider;
     private ComboBox<ICellType> typeSelectBox;
     private int simulationUpdatePause, GUIUpdatePause;
 
@@ -37,7 +36,7 @@ public class App extends Application {
 
     private void buildGrid() {
         HeatScenario scenario = new HeatScenario();
-        this.displayGrid.gridStack = scenario.build(60, 30, 3);
+        this.displayGrid.gridStack = scenario.build(60, 30, 7);
     }
 
     private void initialize() {
@@ -56,16 +55,23 @@ public class App extends Application {
     }
 
     private void createGUI() {
-        this.speedSlider = new Slider(1, 100, 30);
-        this.speedSlider.setPrefSize(200, 50);
-        this.speedSlider.valueProperty().addListener(
+        Slider speedSlider = new Slider(1, 100, 30);
+        speedSlider.setPrefSize(200, 50);
+        speedSlider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 5
         );
 
-        this.typeSelectBox = new ComboBox<>();
+        Slider layerSlider = new Slider(0, displayGrid.gridStack.size() - 1, 0);
+        layerSlider.setPrefSize(200, 50);
+        layerSlider.valueProperty().addListener(
+                (observable, oldValue, newValue) -> this.displayGrid.gridStack.setActiveIndex(newValue.intValue())
+        );
+        layerSlider.setMajorTickUnit(1);
+        layerSlider.setBlockIncrement(1);
 
+        // this.typeSelectBox = new ComboBox<>();
 
-        HBox controlBox = new HBox(this.speedSlider);
+        HBox controlBox = new HBox(speedSlider, layerSlider);
         controlBox.setAlignment(Pos.CENTER);
 
         VBox sceneVBox = new VBox(this.displayGrid, controlBox);

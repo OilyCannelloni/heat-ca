@@ -36,7 +36,7 @@ public class HeatScenario extends Scenario {
             heatCell.setTemperature(20);
         }));
 
-        ((HeatCell) grid3d.getCell(10, 10, 0)).setTemperature(10000);
+        ((HeatCell) grid3d.getCell(10, 10, 3)).setTemperature(10000);
 
         return grid3d;
     }
