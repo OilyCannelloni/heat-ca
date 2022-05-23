@@ -1,8 +1,5 @@
 package Models;
 
-import GUI.Grid;
-import GUI.Cell;
-
 public abstract class Scenario {
     private final Class<? extends Cell> cellClass;
 

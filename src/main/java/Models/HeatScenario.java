@@ -1,8 +1,6 @@
 package Models;
 
 import Components.Position;
-import GUI.Cell;
-import GUI.Grid;
 
 public class HeatScenario extends Scenario {
     public HeatScenario() {

@@ -1,8 +1,7 @@
-package GUI;
+package Models;
 
 import Components.Dir;
 import Components.Position;
-import Models.HeatCell;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -12,14 +11,13 @@ import javafx.scene.paint.Color;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /**
  * Represents the grid in which the simulation takes place.
  * Only square grid, for now
  */
 
-public class Grid extends GridPane implements Iterable<Cell> {
+public class Grid implements Iterable<Cell> {
     /**
      * Iteration mechanics, so that functions like forEach()
      * could be easily invoked without a million for loops
@@ -90,40 +88,10 @@ public class Grid extends GridPane implements Iterable<Cell> {
                     e.printStackTrace();
                 }
 
-                this.add(this.cells[i][j], i, j, 1, 1);
             }
         }
 
-        this.setGridLinesVisible(true);
-        this.setBackground(new Background(new BackgroundFill(
-                Color.DARKGRAY,
-                CornerRadii.EMPTY,
-                Insets.EMPTY
-        )));
         this.applyMooreNeighbourhood();
-    }
-
-    /**
-     * Updates all cells on grid
-     */
-    public void updateAll() {
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                this.cells[i][j].update();
-            }
-        }
-    }
-
-    /**
-     * Updates cells which have the needsUpdate flag set
-     */
-    public void updateWhereNeeded() {
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                if (this.cells[i][j].needsUpdate())
-                    this.cells[i][j].update();
-            }
-        }
     }
 
 

@@ -1,7 +1,6 @@
 package Models;
 
 import Components.ColorGradient;
-import GUI.Cell;
 import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
@@ -29,12 +28,6 @@ public class HeatCell extends Cell {
 
     @Override
     public void onTick(int epoch) {
-        // TODO
-        // if (this.type = grzała) this.doGrzałaStuff()
-        // else if (this.type = naZewnątrz) this.doNothing()
-        // else doDefaultCase()...
-        // TODO konwekcja
-
         HeatCellType myType = this.getType();
         double newTemperature = this.getTemperature();
         newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
@@ -47,6 +40,7 @@ public class HeatCell extends Cell {
         double heatBalance = 0;
         double h = 1;
         for(Cell n : this.neighbours) {
+            if (n == null) continue;
             HeatCell neighbour = (HeatCell) n;
             double delta_T = neighbour.getTemperature() - this.getTemperature();
             heatBalance += (heatTransferCoef * delta_T) / (h * h);

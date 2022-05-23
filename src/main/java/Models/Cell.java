@@ -1,9 +1,7 @@
-package GUI;
+package Models;
 
 import Components.Dir;
 import Components.Position;
-import Models.HeatCell;
-import Models.ICellType;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -11,7 +9,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
-public abstract class Cell extends StackPane implements ICell {
+public abstract class Cell implements ICell {
     protected ICellType type;
     protected Color color;
     private boolean needsUpdate, stateChanged;
@@ -20,10 +18,7 @@ public abstract class Cell extends StackPane implements ICell {
     protected Position position;
 
     public Cell() {
-        this.neighbours = new Cell[4];
-        this.setColor(Color.WHITESMOKE);
-        this.setOpacity(1.0);
-        this.setPrefSize(15, 15);
+        this.neighbours = new Cell[6];
     }
 
     public ICellType getType() {
@@ -37,6 +32,10 @@ public abstract class Cell extends StackPane implements ICell {
 
     public void setPosition(Position p) {
         this.position = p;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public void addNeighbour(Dir d, Cell cell) {
@@ -68,15 +67,6 @@ public abstract class Cell extends StackPane implements ICell {
 
     public void beforeUpdate() {
         this.color = this.getColor();
-    }
-
-    public void update() {
-        this.beforeUpdate();
-        this.setBackground(new Background(new BackgroundFill(
-                this.color,
-                CornerRadii.EMPTY,
-                Insets.EMPTY
-        )));
     }
 
     public void onTickBase(int epoch) {

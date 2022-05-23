@@ -1,5 +1,6 @@
 package GUI;
 
+import Models.Grid;
 import Models.HeatScenario;
 import Models.ICellType;
 import javafx.application.Application;
@@ -14,7 +15,7 @@ import javafx.stage.Stage;
 
 public class App extends Application {
     private Stage primaryStage;
-    private Grid grid;
+    private DisplayGrid displayGrid;
     private Slider speedSlider;
     private ComboBox<ICellType> typeSelectBox;
     private int simulationUpdatePause, GUIUpdatePause;
@@ -22,6 +23,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
+        this.displayGrid = new DisplayGrid(60, 30);
 
         this.initialize();
         this.buildGrid();
@@ -36,7 +38,8 @@ public class App extends Application {
 
     private void buildGrid() {
         HeatScenario scenario = new HeatScenario();
-        this.grid = scenario.build(60, 30);
+        Grid grid = scenario.build(60, 30);
+        this.displayGrid.gridStack.addConnectedLayer(grid);
     }
 
     private void initialize() {
@@ -50,7 +53,7 @@ public class App extends Application {
                 Thread.sleep(simulationUpdatePause);
             } catch (InterruptedException ignore) {}
 
-            this.grid.tickAll();
+            this.displayGrid.gridStack.tickAll();
         }
     }
 
@@ -67,7 +70,7 @@ public class App extends Application {
         HBox controlBox = new HBox(this.speedSlider);
         controlBox.setAlignment(Pos.CENTER);
 
-        VBox sceneVBox = new VBox(this.grid, controlBox);
+        VBox sceneVBox = new VBox(this.displayGrid, controlBox);
 
         Scene scene = new Scene(sceneVBox);
         this.primaryStage.setScene(scene);
@@ -80,7 +83,7 @@ public class App extends Application {
                 Thread.sleep(GUIUpdatePause);
             } catch (InterruptedException ignore) {}
 
-            Platform.runLater(() -> this.grid.updateWhereNeeded());
+            Platform.runLater(() -> this.displayGrid.updateAll());
         }
     }
 }

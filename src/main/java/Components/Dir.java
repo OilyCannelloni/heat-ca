@@ -6,9 +6,15 @@ public enum Dir {
     UP,
     LEFT,
     RIGHT,
-    DOWN;
+    DOWN,
+    FRONT,
+    BACK;
 
     public static Dir random() {
-        return Dir.values()[Algorithm.random.nextInt(Dir.values().length)];
+        return Dir.values()[Algorithm.random.nextInt(4)];
+    }
+
+    public static Dir random3D() {
+        return Dir.values()[Algorithm.random.nextInt(6)];
     }
 }
