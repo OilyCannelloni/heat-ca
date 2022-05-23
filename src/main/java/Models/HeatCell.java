@@ -4,6 +4,8 @@ import Components.ColorGradient;
 import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
+    private static boolean doConvection = false;
+
     private double temperature;
     private static final ColorGradient gradient = new ColorGradient(
             Color.DARKBLUE,
@@ -32,11 +34,12 @@ public class HeatCell extends Cell {
         if(myType == HeatCellType.HEATER || myType == HeatCellType.OUTSIDE){
             return;
         }
-        double conventionHeatExchange = convection();
+        double conventionHeatExchange = doConvection ? convection() : 0;
         double newTemperature = this.getTemperature();
         newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         this.setTemperature(newTemperature + conventionHeatExchange);
     }
+
     private double convection() {
         System.out.println("CONEVETION BEGIN " + this.getTemperature());
         HeatCellType myType = this.getType();
@@ -49,6 +52,7 @@ public class HeatCell extends Cell {
         System.out.println("CONEVETION END " + this.getTemperature());
         return conventionChange;
     }
+
     private double heatExchange() {
         HeatCellType type = this.getType();
         double heatTransferCoef = type.getHeatTransferCoefficient();
