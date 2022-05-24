@@ -22,7 +22,7 @@ public class App extends Application {
     class GUIUpdate extends TimerTask {
         @Override
         public void run() {
-            Platform.runLater(() -> displayGrid.updateAllInRandomOrder());
+            Platform.runLater(() -> displayGrid.updateAll());
         }
     }
 

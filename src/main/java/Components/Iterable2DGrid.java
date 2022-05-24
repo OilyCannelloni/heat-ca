@@ -4,51 +4,29 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Abstract2DGrid<T> implements I2DGrid<T> {
-    protected final int width, height;
-    private final ArrayList<Integer> updateOrder;
-
-    public Abstract2DGrid(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.updateOrder = new ArrayList<>();
-        for (int i = 0; i < this.getSize(); i++) this.updateOrder.add(i);
+public interface Iterable2DGrid<T> {
+    int getGridWidth();
+    int getGridHeight();
+    default int getSize() {
+        return getGridHeight() * getGridWidth();
     }
-
-    @Override
-    public int getWidth() {
-        return width;
-    }
-
-    @Override
-    public int getHeight() {
-        return height;
-    }
-
-    @Override
-    public T get(int x, int y) {
-        return null;
-    }
-
-    @Override
-    public T get(Position position) {
-        return null;
-    }
+    T get(int x, int y);
+    T get(Position position);
 
 
-    public Iterable<Position> positions() {
+    default Iterable<Position> positions() {
         return () -> new Iterator<>() {
             private int x, y;
 
             @Override
             public boolean hasNext() {
-                return y * width + x < getSize();
+                return y * getGridWidth() + x < getSize();
             }
 
             @Override
             public Position next() {
                 Position ret = new Position(x, y);
-                if (++x == width) {
+                if (++x == getGridWidth()) {
                     x = 0;
                     y++;
                 }
@@ -58,19 +36,19 @@ public class Abstract2DGrid<T> implements I2DGrid<T> {
     }
 
 
-    public Iterable<T> elements() {
+    default Iterable<T> elements() {
         return () -> new Iterator<>() {
             private int x, y;
 
             @Override
             public boolean hasNext() {
-                return y * width + x < getSize();
+                return y * getGridWidth() + x < getSize();
             }
 
             @Override
             public T next() {
                 T ret = get(x, y);
-                if (++x == width) {
+                if (++x == getGridWidth()) {
                     x = 0;
                     y++;
                 }
@@ -79,13 +57,15 @@ public class Abstract2DGrid<T> implements I2DGrid<T> {
         };
     }
 
-
-    public Iterable<T> shuffledElements() {
+    default Iterable<T> shuffledElements() {
         return new Iterable<>() {
             class ShuffledGridIterator implements Iterator<T> {
+                private final ArrayList<Integer> updateOrder;
                 private int i;
 
                 public ShuffledGridIterator() {
+                    updateOrder = new ArrayList<>();
+                    for (int i = 0; i < getSize(); i++) updateOrder.add(i);
                     Collections.shuffle(updateOrder);
                 }
 
@@ -98,8 +78,8 @@ public class Abstract2DGrid<T> implements I2DGrid<T> {
                 public T next() {
                     int linearIndex = updateOrder.get(i++);
                     return get(
-                            linearIndex % width,
-                            linearIndex / width
+                            linearIndex % getGridWidth(),
+                            linearIndex / getGridWidth()
                     );
                 }
             }
@@ -111,4 +91,3 @@ public class Abstract2DGrid<T> implements I2DGrid<T> {
         };
     }
 }
-

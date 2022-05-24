@@ -1,8 +1,6 @@
 package GUI;
 
-import Components.Cell;
-import Components.Grid;
-import Components.GridStack;
+import Components.*;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,36 +8,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-
-public class DisplayGrid extends GridPane implements Iterable<DisplayCell> {
-    class DisplayGridIterator implements Iterator<DisplayCell> {
-        private int x, y;
-
-        @Override
-        public boolean hasNext() {
-            return y * width + x < size();
-        }
-
-        @Override
-        public DisplayCell next() {
-            DisplayCell ret = get(x, y);
-            if (++x == width) {
-                x = 0;
-                y++;
-            }
-            return ret;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Cannot remove a DisplayCell from DisplayGrid!");
-        }
-    }
-
-
+public class DisplayGrid extends GridPane implements Iterable2DGrid<DisplayCell> {
     private final int width, height;
     private final DisplayCell[][] displayCells;
     public GridStack gridStack;
@@ -66,40 +35,29 @@ public class DisplayGrid extends GridPane implements Iterable<DisplayCell> {
     }
 
     @Override
-    public Iterator<DisplayCell> iterator() {
-        return new DisplayGridIterator();
+    public int getGridWidth() {
+        return width;
     }
 
-    public int size() {
-        return width * height;
+    @Override
+    public int getGridHeight() {
+        return height;
     }
 
     public DisplayCell get(int x, int y) {
         return this.displayCells[x][y];
     }
 
-    public void updateAll() {
-        Grid activeGrid = this.gridStack.getActiveGrid();
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-                Cell cell = activeGrid.get(i, j);
-                Color color = cell.getColor();
-                this.get(i, j).setColor(color);
-            }
-        }
+    public DisplayCell get(Position position) {
+        return this.displayCells[position.x][position.y];
     }
 
-    public void updateAllInRandomOrder() {
+    public void updateAll() {
         Grid activeGrid = this.gridStack.getActiveGrid();
-        ArrayList<Integer> order = new ArrayList<>();
-        for (int i = 0; i < size(); i++) {
-            order.add(i);
-        }
-        Collections.shuffle(order);
-        for (int i : order) {
-            Cell cell = activeGrid.get(i % width, i / width);
+        for (Position position : this.positions()) {
+            Cell cell = activeGrid.get(position);
             Color color = cell.getColor();
-            this.get(i % width, i / width).setColor(color);
+            this.get(position).setColor(color);
         }
     }
 }

@@ -1,21 +1,17 @@
 package Components;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.function.Consumer;
-
 /**
  * Represents the grid in which the simulation takes place.
  * Only square grid, for now
  */
 
-public class Grid extends Abstract2DGrid<Cell> {
+public class Grid implements Iterable2DGrid<Cell> {
     /**
      *  Attributes
      */
     private final Cell[][] cells;
+    private final int width, height;
     private int epoch = 0;
 
     /**
@@ -26,8 +22,8 @@ public class Grid extends Abstract2DGrid<Cell> {
      *                  in a particular simulation. It should override onTick() and getColor()
      */
     public Grid(int width, int height, Class<? extends Cell> cellClass) {
-        super(width, height);
-
+        this.width = width;
+        this.height = height;
         this.cells = new Cell[width][height];
         for (Position position : this.positions()) {
             // Create an instance of CellClass on every position
@@ -44,16 +40,22 @@ public class Grid extends Abstract2DGrid<Cell> {
         this.applyNeighbourhood();
     }
 
-    /**
-     * Returns a cell at given position
-     * @param x - x coordinate of position
-     * @param y - y coordinate of position
-     * @return - Cell object at (x, y)
-     */
+    @Override
+    public int getGridWidth() {
+        return width;
+    }
+
+    @Override
+    public int getGridHeight() {
+        return height;
+    }
+
+    @Override
     public Cell get(int x, int y) {
         return this.cells[x][y];
     }
 
+    @Override
     public Cell get(Position position) {
         return this.cells[position.x][position.y];
     }
