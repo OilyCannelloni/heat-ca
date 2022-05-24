@@ -1,6 +1,6 @@
 package Models;
 
-import Components.Position;
+import Components.*;
 
 public class HeatScenario extends Scenario {
     public HeatScenario() {

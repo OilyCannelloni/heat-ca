@@ -1,13 +1,4 @@
-package Models;
-
-import Components.Dir;
-import Components.Position;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
+package Components;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;

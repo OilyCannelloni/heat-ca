@@ -1,4 +1,4 @@
-package Models;
+package Components;
 
 public abstract class Scenario {
     private final Class<? extends Cell> cellClass;

@@ -1,4 +1,5 @@
 package Models;
+import Components.ICellType;
 import javafx.scene.paint.Color;
 
 public enum HeatCellType implements ICellType {

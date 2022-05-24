@@ -1,7 +1,5 @@
-package Models;
+package Components;
 
-import Components.Dir;
-import Components.Position;
 import java.util.Collection;
 import java.util.HashMap;
 

@@ -1,6 +1,4 @@
-package Models;
-
-import Components.Dir;
+package Components;
 
 import java.util.ArrayList;
 

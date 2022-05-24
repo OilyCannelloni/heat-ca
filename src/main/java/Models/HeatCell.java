@@ -1,5 +1,6 @@
 package Models;
 
+import Components.Cell;
 import Components.ColorGradient;
 import Components.Dir;
 import javafx.scene.paint.Color;

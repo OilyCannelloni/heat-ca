@@ -1,9 +1,8 @@
 package GUI;
 
-
-import Models.Cell;
-import Models.Grid;
-import Models.GridStack;
+import Components.Cell;
+import Components.Grid;
+import Components.GridStack;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
