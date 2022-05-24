@@ -26,8 +26,8 @@ public class GridStack extends ArrayList<Grid> {
         Grid lastGrid = this.get(this.size() - 1);
         Grid oldLastGrid = this.get(this.size() - 2);
 
-        oldLastGrid.forEach(cell -> cell.addNeighbour(Dir.BACK, lastGrid.get(cell.getPosition())));
-        lastGrid.forEach(cell -> cell.addNeighbour(Dir.FRONT, oldLastGrid.get(cell.getPosition())));
+        oldLastGrid.elements().forEach(cell -> cell.addNeighbour(Dir.BACK, lastGrid.get(cell.getPosition())));
+        lastGrid.elements().forEach(cell -> cell.addNeighbour(Dir.FRONT, oldLastGrid.get(cell.getPosition())));
     }
 
     public void tickAll() {

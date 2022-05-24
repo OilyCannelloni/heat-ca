@@ -1,55 +1,20 @@
 package Components;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * Represents the grid in which the simulation takes place.
  * Only square grid, for now
  */
 
-public class Grid implements Iterable<Cell> {
-    /**
-     * Iteration mechanics, so that functions like forEach()
-     * could be easily invoked without a million for loops
-     */
-    class GridIterator implements Iterator<Cell> {
-        private int x, y;
-
-        @Override
-        public boolean hasNext() {
-            return y * width + x < size();
-        }
-
-        @Override
-        public Cell next() {
-            Cell ret = get(x, y);
-            if (++x == width) {
-                x = 0;
-                y++;
-            }
-            return ret;
-        }
-
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Cannot remove a cell from grid! Consider changing its type");
-        }
-    }
-
-    public int size() {
-        return width * height;
-    }
-
-    @Override
-    public Iterator<Cell> iterator() {
-        return new GridIterator();
-    }
-
+public class Grid extends Abstract2DGrid<Cell> {
     /**
      *  Attributes
      */
-    private final int width, height;
     private final Cell[][] cells;
     private int epoch = 0;
 
@@ -61,30 +26,23 @@ public class Grid implements Iterable<Cell> {
      *                  in a particular simulation. It should override onTick() and getColor()
      */
     public Grid(int width, int height, Class<? extends Cell> cellClass) {
-        this.width = width;
-        this.height = height;
+        super(width, height);
+
         this.cells = new Cell[width][height];
-
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
-
-                // Create an instance of cellClass in each field
-                try {
-                    this.cells[i][j] = cellClass.getConstructor().newInstance();
-                    this.cells[i][j].setPosition(new Position(i, j));
-                } catch (
-                        InstantiationException | IllegalAccessException
-                        | InvocationTargetException | NoSuchMethodException e
-                ) {
-                    e.printStackTrace();
-                }
-
+        for (Position position : this.positions()) {
+            // Create an instance of CellClass on every position
+            try {
+                this.cells[position.x][position.y] = cellClass.getConstructor().newInstance();
+                this.cells[position.x][position.y].setPosition(position);
+            } catch (
+                    InvocationTargetException | InstantiationException
+                     | IllegalAccessException | NoSuchMethodException e
+            ) {
+                throw new RuntimeException(e);
             }
         }
-
-        this.applyMooreNeighbourhood();
+        this.applyNeighbourhood();
     }
-
 
     /**
      * Returns a cell at given position
@@ -102,21 +60,15 @@ public class Grid implements Iterable<Cell> {
 
     /**
      * Calls the tick() method of every cell
-     * TODO implement random order of updates
      */
     public void tickAll() {
-        for (int i = 1; i < this.width - 1; i++) {
-            for (int j = 1; j < this.height - 1; j++) {
-                this.cells[i][j].onTickBase(epoch);
-            }
-        }
-        this.epoch++;
+        this.shuffledElements().forEach(cell -> cell.onTickBase(epoch++));
     }
 
     /**
      * Binds the cells to each other
      */
-    private void applyMooreNeighbourhood() {
+    private void applyNeighbourhood() {
         for (int i = 1; i < this.width - 1; i++) {
             for (int j = 1; j < this.height - 1; j++) {
                 Cell cell = this.get(i, j);

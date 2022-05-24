@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
     private final static boolean doConvection = false;
-
     private double temperature;
+
     private static final ColorGradient gradient = new ColorGradient(
             Color.DARKBLUE,
             Color.WHITE,

@@ -12,7 +12,7 @@ public class HeatScenario extends Scenario {
         Grid grid = super.build(width, height);
 
         double startingTemp = 20;
-        grid.forEach((Cell cell) -> {
+        grid.elements().forEach((Cell cell) -> {
             HeatCell heatCell = (HeatCell) cell;
             heatCell.setTemperature(startingTemp);
         });
@@ -35,7 +35,7 @@ public class HeatScenario extends Scenario {
     public GridStack build(int width, int height, int depth) {
         GridStack grid3d = super.build(width, height, depth);
 
-        grid3d.forEach(grid -> grid.forEach(cell -> {
+        grid3d.forEach(grid -> grid.elements().forEach(cell -> {
             HeatCell heatCell = (HeatCell) cell;
             heatCell.setTemperature(20);
         }));
