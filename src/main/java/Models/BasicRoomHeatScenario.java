@@ -8,29 +8,6 @@ public class BasicRoomHeatScenario extends Scenario{
         super(HeatCell.class);
     }
 
-//    @Override
-//    public Grid build(int width, int height) {
-//        Grid grid = super.build(width, height);
-//
-//        double startingTemp = 20;
-//        grid.elements().forEach((Cell cell) -> {
-//            HeatCell heatCell = (HeatCell) cell;
-//            heatCell.setTemperature(startingTemp);
-//        });
-//
-//        Position[] startingPositions = {new Position(10, 10), new Position(20, 20)};
-//        for (Position p : startingPositions) {
-//            HeatCell cell = (HeatCell) grid.get(p);
-//            cell.setTemperature(10000);
-//        }
-//
-//        // example of const temperature block
-//        HeatCell cell = (HeatCell) grid.get(new Position(15, 15));
-//        cell.setType(HeatCellType.HEATER);
-//
-//        return grid;
-//    }
-
     private void addObject (GridStack grid3d, int xb, int xe, int yb, int ye, int zb, int ze, HeatCellType type, int temp){
         for(int x = xb; x <= xe; x++){
             for (int y = yb; y <= ye; y++){
@@ -72,5 +49,4 @@ public class BasicRoomHeatScenario extends Scenario{
 
         return grid3d;
     }
-
 }
