@@ -66,8 +66,8 @@ public class BasicRoomHeatScenario extends Scenario{
         addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.BRICK, 10);
         addObject(grid3d, 1,width-2, 1,height-2, depth-2, depth-2, HeatCellType.BRICK, 10);
 
-        addObject(grid3d,10,50,20,28,1,2, HeatCellType.HEATER, 100);
-        addObject(grid3d,10,50,5,19,0,0, HeatCellType.GLASS, 6);
+        addObject(grid3d,10,50,20,25,3,4, HeatCellType.HEATER, 20);
+        addObject(grid3d,10,50,5,19,1,1, HeatCellType.GLASS, 6);
         addObject(grid3d, 15, 45, 30, 25, 5, 11, HeatCellType.WOOD, 20);
 
         return grid3d;
