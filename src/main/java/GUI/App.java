@@ -1,5 +1,6 @@
 package GUI;
 
+import Models.BasicRoomHeatScenario;
 import Models.HeatScenario;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -18,6 +19,10 @@ public class App extends Application {
     private final Timer GUITimer = new Timer();
     private int simulationUpdatePause;
     private Thread simulationThread;
+
+    private final int roomWidth = 60;
+    private final int roomHeight = 30;
+    private final int roomDepth = 30;
 
     class GUIUpdate extends TimerTask {
         @Override
@@ -48,7 +53,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.displayGrid = new DisplayGrid(60, 30);
+        this.displayGrid = new DisplayGrid(roomWidth, roomHeight);
 
         this.initialize();
         this.buildGrid();
@@ -62,8 +67,8 @@ public class App extends Application {
     }
 
     private void buildGrid() {
-        HeatScenario scenario = new HeatScenario();
-        this.displayGrid.gridStack = scenario.build(60, 30, 7);
+        BasicRoomHeatScenario scenario = new BasicRoomHeatScenario();
+        this.displayGrid.gridStack = scenario.build(roomWidth, roomHeight, roomDepth);
     }
 
     private void initialize() {
