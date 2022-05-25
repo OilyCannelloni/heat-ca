@@ -17,7 +17,9 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 1000;
             case WOOD -> 750;
             case GLASS -> 2500;
-            case HEATER, OUTSIDE -> -1;
+//            Assuming HEATER is made of steel
+            case HEATER -> 7850;
+            case OUTSIDE -> -1;
         };
     }
 
@@ -28,7 +30,9 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 2;
             case WOOD -> 3;
             case GLASS -> 4;
-            case HEATER, OUTSIDE -> -1;
+//            Assuming HEATER is made of steel
+            case HEATER -> 5;
+            case OUTSIDE -> -1;
         };
     }
 
@@ -52,7 +56,9 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 0.57;
             case WOOD -> 0.32;
             case GLASS -> 1.1;
-            case HEATER, OUTSIDE -> -1;
+//            Assuming HEATER is made of steel
+            case HEATER -> 50;
+            case OUTSIDE -> -1;
         };
     }
 
@@ -60,10 +66,18 @@ public enum HeatCellType implements ICellType {
         return switch (this) {
             case AIR, DEFAULT -> 1.5;
             case BRICK, WOOD, GLASS -> 0;
-            case HEATER, OUTSIDE -> -1;
+//            Assuming HEATER is made of steel
+            case HEATER -> 0;
+            case OUTSIDE -> -1;
         };
     }
 
+    public double getHeatGenerated() {
+        return switch (this) {
+            case BRICK, WOOD, GLASS, OUTSIDE, AIR, DEFAULT -> 0;
+            case HEATER -> 1;
+        };
+    }
     public double getVolume() {
         return 0.001; //m3
     }
