@@ -1,5 +1,7 @@
 package Components;
 
+import GUI.Symbol;
+
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -20,6 +22,10 @@ public abstract class Cell implements ICell {
     public void setType(ICellType type) {
         this.type = type;
         this.setStateChanged();
+    }
+
+    public Symbol getSymbol() {
+        return Symbol.EMPTY;
     }
 
     public void setPosition(Position p) {

@@ -3,6 +3,7 @@ package Models;
 import Components.Cell;
 import Components.ColorGradient;
 import Components.Dir;
+import GUI.Symbol;
 import javafx.scene.paint.Color;
 
 public class HeatCell extends Cell {
@@ -15,8 +16,7 @@ public class HeatCell extends Cell {
             Color.GREEN,
             Color.YELLOW,
             Color.RED,
-            Color.DARKRED,
-            Color.BLACK
+            Color.DARKRED
     );
 
     public HeatCell() {
@@ -35,6 +35,7 @@ public class HeatCell extends Cell {
         if(myType == HeatCellType.OUTSIDE){
             return;
         }
+        // TODO ???
 //        if(myType == HeatCellType.HEATER){
 //            double newTemperature = this.getTemperature();
 //            newTemperature += myType.getHeatGenerated();
@@ -49,6 +50,14 @@ public class HeatCell extends Cell {
         this.setTemperature(newTemperature);
     }
 
+    /*
+    TODO fix this!!!!!
+    it should spread the air diagonally up too
+    for example 0.6 of the convection going directly up and
+    0.15 up-left, 0.15 up-right, 0.05 left and 0.05 right
+    or weight these ratios somehow based on how much heat can go up
+    do some testing and playing around
+     */
     private double convection() {
         System.out.println("CONEVETION BEGIN " + this.getTemperature());
         HeatCellType myType = this.getType();
@@ -66,6 +75,7 @@ public class HeatCell extends Cell {
         HeatCellType type = this.getType();
         double heatTransferCoef = type.getHeatTransferCoefficient();
         double heatBalance = 0;
+        // TODO fix this h as the simulation is going slowly as fck
         double h = 1;
         for(Cell n : this.getNeighbours()) {
             if (n == null) continue;
@@ -82,11 +92,21 @@ public class HeatCell extends Cell {
         this.temperature = newTemp;
     }
 
+    @Override
     public Color getColor() {
         double expectedMinTemp = 10;
         double expectedMaxTemp = 80;
         double w1 = (temperature - expectedMinTemp) / (expectedMaxTemp - expectedMinTemp);
         w1 = Math.min(Math.max(w1, 0), 1);
         return gradient.getByPercentage(w1);
+    }
+
+    @Override
+    public Symbol getSymbol() {
+        HeatCellType type = this.getType();
+        if (type == HeatCellType.GLASS) return Symbol.DOTS;
+        if (type == HeatCellType.HEATER) return Symbol.CIRCLE_WITH_DOT;
+        if (type.isSolid()) return Symbol.CROSS;
+        return Symbol.EMPTY;
     }
 }

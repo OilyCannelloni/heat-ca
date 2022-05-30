@@ -58,6 +58,7 @@ public class DisplayGrid extends GridPane implements Iterable2DGrid<DisplayCell>
             Cell cell = activeGrid.get(position);
             Color color = cell.getColor();
             this.get(position).setColor(color);
+            this.get(position).setSymbol(cell.getSymbol());
         }
     }
 }

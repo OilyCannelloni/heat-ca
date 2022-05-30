@@ -78,10 +78,24 @@ public enum HeatCellType implements ICellType {
             case HEATER -> 1;
         };
     }
+
+    public boolean isSolid() {
+        return switch (this) {
+            case DEFAULT -> false;
+            case AIR -> false;
+            case BRICK -> true;
+            case WOOD -> true;
+            case GLASS -> true;
+            case HEATER -> true;
+            case OUTSIDE -> false;
+        };
+    }
+
     public double getVolume() {
         return 0.001; //m3
     }
 
+    // TODO this is not a property of HeatCellType, right?
     public double deltaTime() {
         return 1;
     }

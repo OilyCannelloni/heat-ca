@@ -18,10 +18,13 @@ public class BasicRoomHeatScenario extends Scenario{
             }
         }
     }
+
     @Override
     public GridStack build(int width, int height, int depth) {
         GridStack grid3d = super.build(width, height, depth);
 
+        // TODO zrobić jakiś fajniejszy domek z większą liczbą grzejników i jakimiś rzeczami w środku
+        // i np 2 warianty z dużymi oknami i małymi żeby było widać że duże okna = potrzeba mocniejszego grzejnika
         grid3d.forEach(grid -> grid.elements().forEach(cell -> {
             HeatCell heatCell = (HeatCell) cell;
             heatCell.setTemperature(20);
@@ -44,6 +47,8 @@ public class BasicRoomHeatScenario extends Scenario{
         addObject(grid3d, 1,width-2, 1,height-2, depth-2, depth-2, HeatCellType.BRICK, 10);
 
         addObject(grid3d,10,50,20,25,3,4, HeatCellType.HEATER, 20);
+        // TODO make this heater colder as it warms up to like 300+ degrees ruining the colors
+
         addObject(grid3d,10,50,5,19,1,1, HeatCellType.GLASS, 6);
         addObject(grid3d, 15, 45, width-3, 25, 5, 11, HeatCellType.WOOD, 20);
 

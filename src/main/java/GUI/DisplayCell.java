@@ -1,6 +1,8 @@
 package GUI;
 
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -9,9 +11,12 @@ import javafx.scene.paint.Color;
 
 public class DisplayCell extends StackPane {
     private Color color = null;
+    private final ImageView imageView;
 
     public DisplayCell() {
         this.setColor(Color.WHITESMOKE);
+        this.imageView = new ImageView();
+        this.getChildren().add(this.imageView);
         this.setOpacity(1.0);
         this.setPrefSize(15, 15);
     }
@@ -24,5 +29,14 @@ public class DisplayCell extends StackPane {
                 CornerRadii.EMPTY,
                 Insets.EMPTY
         )));
+    }
+
+    public void setSymbol(Symbol symbol) {
+        if (symbol == Symbol.EMPTY) {
+            this.imageView.setImage(null);
+            return;
+        }
+        Image image = symbol.getImage();
+        this.imageView.setImage(image);
     }
 }

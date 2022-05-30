@@ -78,7 +78,7 @@ public class App extends Application {
     private void createGUI() {
         NamedValueSlider speedSlider = new NamedValueSlider("Simulation Speed [ticks/s]", 1, 100, 30);
         speedSlider.slider.valueProperty().addListener(
-                (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 5
+                (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 9
         );
         speedSlider.slider.setShowTickLabels(true);
         speedSlider.slider.setShowTickMarks(true);

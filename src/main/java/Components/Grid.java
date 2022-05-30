@@ -7,9 +7,6 @@ import java.lang.reflect.InvocationTargetException;
  */
 
 public class Grid implements Iterable2DGrid<Cell> {
-    /**
-     *  Attributes
-     */
     private final Cell[][] cells;
     private final int width, height;
     private int epoch = 0;
