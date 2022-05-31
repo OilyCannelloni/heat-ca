@@ -6,13 +6,15 @@ import Components.Dir;
 import GUI.Symbol;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 public class HeatCell extends Cell {
     private final static boolean doConvection = true;
     private double temperature;
-    private static double heaterMaxTemp = 70;
+    private static double heaterMaxTemp = 100;
 
     private static final ColorGradient gradient = new ColorGradient(
             Color.DARKBLUE,
@@ -39,15 +41,7 @@ public class HeatCell extends Cell {
         if (myType == HeatCellType.OUTSIDE) {
             return;
         }
-        // TODO ???
-//        if(myType == HeatCellType.HEATER){
-//            double newTemperature = this.getTemperature();
-//            newTemperature += myType.getHeatGenerated();
-//            this.setTemperature(newTemperature);
-//            return;
-//        }
-        /*if(!myType.isSolid())
-            System.out.println("TAK");*/
+
         double convectionHeatExchange = (doConvection && !myType.isSolid()) ? convection() : 0;
         double newTemperature = this.getTemperature();
         newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
@@ -136,5 +130,10 @@ public class HeatCell extends Cell {
         if (type == HeatCellType.HEATER) return Symbol.CIRCLE_WITH_DOT;
         if (type.isSolid()) return Symbol.CROSS;
         return Symbol.EMPTY;
+    }
+
+    @Override
+    public double getValue() {
+        return temperature;
     }
 }

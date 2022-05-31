@@ -1,5 +1,6 @@
 package GUI;
 
+import Components.Scenario;
 import Models.BasicRoomHeatScenario;
 import Models.HeatScenario;
 import javafx.application.Application;
@@ -9,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,10 +24,11 @@ public class App extends Application {
     private final Timer GUITimer = new Timer();
     private int simulationUpdatePause;
     private Thread simulationThread;
+    private Scenario scenario;
 
-    private final int roomWidth = 60;
-    private final int roomHeight = 60;
-    private final int roomDepth = 30;
+    private final int roomWidth = 30;
+    private final int roomHeight = 15;
+    private final int roomDepth = 15;
 
     class GUIUpdate extends TimerTask {
         @Override
@@ -76,7 +79,7 @@ public class App extends Application {
     }
 
     private void buildGrid() {
-        BasicRoomHeatScenario scenario = new BasicRoomHeatScenario();
+        scenario = new BasicRoomHeatScenario();
         this.displayGrid.gridStack = scenario.build(roomWidth, roomHeight, roomDepth);
     }
 
@@ -85,7 +88,7 @@ public class App extends Application {
     }
 
     private void createGUI() {
-        NamedValueSlider speedSlider = new NamedValueSlider("Simulation Speed [ticks/s]", 1, 100, 30);
+        NamedValueSlider speedSlider = new NamedValueSlider("Simulation Speed [ticks/s]", 1, 100, 5);
         speedSlider.slider.valueProperty().addListener(
                 (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 9
         );
@@ -112,10 +115,21 @@ public class App extends Application {
             simulationThread.start();
         });
 
-        HBox controlBox = new HBox(speedSlider, layerSlider, fastForwardButton);
+        HBox controlBox = new HBox(speedSlider, layerSlider);
         controlBox.setAlignment(Pos.CENTER);
 
-        VBox sceneVBox = new VBox(this.displayGrid, controlBox);
+        Label actionLabel = new Label();
+        Button statButton = new Button();
+        statButton.setText("Print value");
+        statButton.setOnAction(event -> {
+            String s = scenario.printAction();
+            actionLabel.setText(s);
+        });
+
+        HBox statBox = new HBox(fastForwardButton, statButton, actionLabel);
+
+
+        VBox sceneVBox = new VBox(this.displayGrid, controlBox, statBox);
 
         Scene scene = new Scene(sceneVBox);
         this.primaryStage.setScene(scene);

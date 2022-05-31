@@ -1,6 +1,8 @@
 package Components;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Represents the grid in which the simulation takes place.
  * Only square grid, for now

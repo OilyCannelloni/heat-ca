@@ -11,7 +11,7 @@ public class NamedValueSlider extends VBox {
     public Slider slider;
 
     public NamedValueSlider(String name, double min, double max, double val) {
-        this.setPrefSize(300, 50);
+        this.setPrefSize(200, 50);
         this.nameText = new Text();
         this.nameText.setFont(font);
         this.nameText.setText(name);

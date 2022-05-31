@@ -18,4 +18,8 @@ public abstract class Scenario {
         }
         return gridStack;
     }
+
+    public String printAction() {
+        return "";
+    }
 }

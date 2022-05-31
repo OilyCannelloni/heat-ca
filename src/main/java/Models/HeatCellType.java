@@ -9,7 +9,8 @@ public enum HeatCellType implements ICellType {
     WOOD,
     GLASS,
     HEATER,
-    OUTSIDE;
+    OUTSIDE,
+    ISOLATED_WALL;
 
     public double getDensity() {
         return switch (this) {
@@ -20,6 +21,7 @@ public enum HeatCellType implements ICellType {
 //            Assuming HEATER is made of steel
             case HEATER -> 7850;
             case OUTSIDE -> -1;
+            case ISOLATED_WALL -> 1000;
         };
     }
 
@@ -44,6 +46,7 @@ public enum HeatCellType implements ICellType {
             case GLASS -> 5200;
             case HEATER -> 466;
             case OUTSIDE -> -1;
+            case ISOLATED_WALL -> 900;
         };
     }
 
@@ -60,23 +63,25 @@ public enum HeatCellType implements ICellType {
 //            Assuming HEATER is made of steel
             case HEATER -> 50;
             case OUTSIDE -> -1;
+            case ISOLATED_WALL -> 0.003;
         };
     }
 
     public double getConvectionCoefficient() {
         return switch (this) {
-            case AIR, DEFAULT -> 1.5;
+            case AIR, DEFAULT -> 3;
             case BRICK, WOOD, GLASS -> 0;
 //            Assuming HEATER is made of steel
             case HEATER -> 0;
             case OUTSIDE -> -1;
+            case ISOLATED_WALL -> 0;
         };
     }
 
     public double getHeatGenerated() {
         return switch (this) {
-            case BRICK, WOOD, GLASS, OUTSIDE, AIR, DEFAULT -> 0;
-            case HEATER -> 1;
+            case BRICK, WOOD, GLASS, OUTSIDE, AIR, DEFAULT, ISOLATED_WALL -> 0;
+            case HEATER -> 2;
         };
     }
 
@@ -89,6 +94,7 @@ public enum HeatCellType implements ICellType {
             case GLASS -> true;
             case HEATER -> true;
             case OUTSIDE -> false;
+            case ISOLATED_WALL -> true;
         };
     }
 

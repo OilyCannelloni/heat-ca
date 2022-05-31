@@ -59,4 +59,8 @@ public abstract class Cell implements ICell {
         }
         this.onTick(epoch);
     }
+
+    public double getValue() {
+        return 0;
+    }
 }
