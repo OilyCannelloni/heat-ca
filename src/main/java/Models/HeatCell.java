@@ -15,6 +15,7 @@ import static java.lang.Math.min;
 public class HeatCell extends Cell {
     private final static boolean doConvection = true;
     private double temperature;
+    private double nextTemperature;
     private static double heaterMaxTemp = 100;
 
     private static final ColorGradient gradient = new ColorGradient(
@@ -44,15 +45,19 @@ public class HeatCell extends Cell {
         }
 
         double convectionHeatExchange = (doConvection && !myType.isSolid()) ? convection() : 0;
-        double newTemperature = this.getTemperature();
-        newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
-        newTemperature += convectionHeatExchange;
-        newTemperature += myType.getHeatGenerated();
+        nextTemperature = this.getTemperature();
+        nextTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
+        nextTemperature += convectionHeatExchange;
+        nextTemperature += myType.getHeatGenerated();
 
         if (this.getType() == HeatCellType.HEATER)
-            newTemperature = heaterMaxTemp;
+            nextTemperature = heaterMaxTemp;
 
-        this.setTemperature(newTemperature);
+        //this.setTemperature(newTemperature);
+    }
+
+    public void updateTemp() {
+        setTemperature(nextTemperature);
     }
 
     private double convection() {

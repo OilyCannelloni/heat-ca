@@ -104,11 +104,11 @@ public enum HeatCellType implements ICellType {
 
 
     public double getArea() {
-        return 0.1; //m from deinsty root
+        return 0.01; //m from deinsty root
     }
     // TODO this is not a property of HeatCellType, right?
     public double deltaTime() {
-        return 600;
+        return 7500;
     }
 
     @Override

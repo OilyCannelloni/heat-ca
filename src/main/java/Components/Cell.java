@@ -62,6 +62,8 @@ public abstract class Cell implements ICell {
         this.onTick(epoch);
     }
 
+    abstract public void updateTemp();
+
     public double getValue() {
         return 0;
     }
