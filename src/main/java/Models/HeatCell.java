@@ -7,6 +7,7 @@ import GUI.Symbol;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -55,39 +56,19 @@ public class HeatCell extends Cell {
     }
 
     private double convection() {
-        //I know that here for would be good but its 6am
-        // Best done with directional property - but no time for that
-        HeatCell downNei = (HeatCell) this.getNeighbour(Dir.DOWN);
-        HeatCell upNei = (HeatCell) this.getNeighbour(Dir.UP);
-        HeatCell leftNei = (HeatCell) this.getNeighbour(Dir.LEFT);
-        HeatCell rightNei = (HeatCell) this.getNeighbour(Dir.RIGHT);
-        HeatCell frontNei = (HeatCell) this.getNeighbour(Dir.FRONT);
-        HeatCell backNei = (HeatCell) this.getNeighbour(Dir.BACK);
         HeatCellType myType = this.getType();
-        double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
         double convectionExchange = 0;
-        if (upNei != null && !upNei.getType().isSolid()) {
-            convectionExchange += min(0, upNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
-        }
+        double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
 
-        if (downNei != null && !downNei.getType().isSolid()) {
-            convectionExchange += max(0, downNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
-        }
-
-        if (frontNei != null && !frontNei.getType().isSolid()) {
-            convectionExchange += 0.1 * (frontNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
-        }
-
-        if (backNei != null && !backNei.getType().isSolid()) {
-            convectionExchange += 0.1 * (backNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
-        }
-
-        if (leftNei != null && !leftNei.getType().isSolid()) {
-            convectionExchange += 0.1 * (leftNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
-        }
-
-        if (rightNei != null && !rightNei.getType().isSolid()) {
-            convectionExchange += 0.1 * (rightNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
+        for(Map.Entry<Dir, Cell> neighbour : this.getNeighbourMap().entrySet()) {
+            HeatCell curNeighbour = (HeatCell) neighbour.getValue();
+            if (!curNeighbour.getType().isSolid()) {
+                switch (neighbour.getKey()) {
+                    case DOWN -> convectionExchange += max(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
+                    case UP -> convectionExchange += min(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
+                    case FRONT, BACK, LEFT, RIGHT -> convectionExchange += 0.1 * (curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
+                }
+            }
         }
         return convectionExchange;
     }

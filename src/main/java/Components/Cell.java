@@ -48,6 +48,8 @@ public abstract class Cell implements ICell {
         return neighbours.values();
     }
 
+    public HashMap<Dir, Cell> getNeighbourMap() {return this.neighbours;}
+
     public void setStateChanged() {
         this.stateChanged = true;
     }
