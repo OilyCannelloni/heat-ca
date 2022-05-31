@@ -96,7 +96,12 @@ public enum HeatCellType implements ICellType {
         return 0.001; //m3
     }
 
+
+    public double getArea() {
+        return 0.1; //m from deinsty root
+    }
     // TODO this is not a property of HeatCellType, right?
+    //that is the fastest, otherwise weird shit is happening
     public double deltaTime() {
         return 150;
     }

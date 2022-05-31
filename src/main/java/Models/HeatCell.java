@@ -6,6 +6,8 @@ import Components.Dir;
 import GUI.Symbol;
 import javafx.scene.paint.Color;
 
+import static java.lang.Math.max;
+
 public class HeatCell extends Cell {
     private final static boolean doConvection = false;
     private double temperature;
@@ -32,7 +34,7 @@ public class HeatCell extends Cell {
     @Override
     public void onTick(int epoch) {
         HeatCellType myType = this.getType();
-        if(myType == HeatCellType.OUTSIDE){
+        if (myType == HeatCellType.OUTSIDE) {
             return;
         }
         // TODO ???
@@ -44,7 +46,7 @@ public class HeatCell extends Cell {
 //        }
         double convectionHeatExchange = doConvection ? convection() : 0;
         double newTemperature = this.getTemperature();
-        newTemperature += myType.deltaTime()/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
+        newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         newTemperature += convectionHeatExchange;
         newTemperature += myType.getHeatGenerated();
         this.setTemperature(newTemperature);
@@ -59,16 +61,24 @@ public class HeatCell extends Cell {
     do some testing and playing around
      */
     private double convection() {
-        System.out.println("CONEVETION BEGIN " + this.getTemperature());
+        HeatCell upNei = (HeatCell) this.getNeighbour(Dir.UP);
+        HeatCell leftNei = (HeatCell) this.getNeighbour(Dir.LEFT);
+        HeatCell rightNei = (HeatCell) this.getNeighbour(Dir.RIGHT);
         HeatCellType myType = this.getType();
-        double alphaPrim = myType.getConvectionCoefficient() / (myType.getVolume() * myType.getDensity() * myType.getSpecificHeat());
+        double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
+        double convectionExchange = 0;
+        if (upNei != null) {
+            convectionExchange += max(0, this.getTemperature() - upNei.getTemperature()) * multiplicationConstant;
+        }
 
-        HeatCell lowerNeighbour = (HeatCell) getNeighbour(Dir.DOWN);
-        HeatCell upperNeighbour = (HeatCell) getNeighbour(Dir.UP);
-        double conventionChange = this.getTemperature() + alphaPrim * (this.getTemperature() - lowerNeighbour.getTemperature()) * myType.deltaTime();
-        conventionChange += this.getTemperature() - alphaPrim * (upperNeighbour.getTemperature() - this.getTemperature()) * myType.deltaTime();
-        System.out.println("CONEVETION END " + this.getTemperature());
-        return conventionChange;
+        if (leftNei != null) {
+            convectionExchange += max(0, this.getTemperature() - leftNei.getTemperature()) * multiplicationConstant;
+        }
+
+        if (rightNei != null) {
+            convectionExchange += max(0, this.getTemperature() - rightNei.getTemperature()) * multiplicationConstant;
+        }
+        return convectionExchange;
     }
 
     private double heatExchange() {
@@ -77,7 +87,7 @@ public class HeatCell extends Cell {
         double heatBalance = 0;
         // TODO fix this h as the simulation is going slowly as fck
         double cellLength = 1;
-        for(Cell n : this.getNeighbours()) {
+        for (Cell n : this.getNeighbours()) {
             if (n == null) continue;
             HeatCell neighbour = (HeatCell) n;
             double delta_T = neighbour.getTemperature() - this.getTemperature();
@@ -86,7 +96,9 @@ public class HeatCell extends Cell {
         return heatBalance;
     }
 
-    public double getTemperature() { return this.temperature;}
+    public double getTemperature() {
+        return this.temperature;
+    }
 
     public void setTemperature(double newTemp) {
         this.temperature = newTemp;
@@ -97,7 +109,7 @@ public class HeatCell extends Cell {
         double expectedMinTemp = 10;
         double expectedMaxTemp = 80;
         double w1 = (temperature - expectedMinTemp) / (expectedMaxTemp - expectedMinTemp);
-        w1 = Math.min(Math.max(w1, 0), 1);
+        w1 = Math.min(max(w1, 0), 1);
         return gradient.getByPercentage(w1);
     }
 
