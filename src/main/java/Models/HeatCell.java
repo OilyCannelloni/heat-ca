@@ -44,7 +44,7 @@ public class HeatCell extends Cell {
 //        }
         double convectionHeatExchange = doConvection ? convection() : 0;
         double newTemperature = this.getTemperature();
-        newTemperature += 1/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
+        newTemperature += myType.deltaTime()/(myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         newTemperature += convectionHeatExchange;
         newTemperature += myType.getHeatGenerated();
         this.setTemperature(newTemperature);
@@ -76,12 +76,12 @@ public class HeatCell extends Cell {
         double heatTransferCoef = type.getHeatTransferCoefficient();
         double heatBalance = 0;
         // TODO fix this h as the simulation is going slowly as fck
-        double h = 1;
+        double cellLength = 1;
         for(Cell n : this.getNeighbours()) {
             if (n == null) continue;
             HeatCell neighbour = (HeatCell) n;
             double delta_T = neighbour.getTemperature() - this.getTemperature();
-            heatBalance += (heatTransferCoef * delta_T) / (h * h);
+            heatBalance += (heatTransferCoef * delta_T) / (cellLength * cellLength);
         }
         return heatBalance;
     }
