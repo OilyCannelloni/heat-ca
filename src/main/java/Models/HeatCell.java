@@ -7,9 +7,10 @@ import GUI.Symbol;
 import javafx.scene.paint.Color;
 
 import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 public class HeatCell extends Cell {
-    private final static boolean doConvection = false;
+    private final static boolean doConvection = true;
     private double temperature;
 
     private static final ColorGradient gradient = new ColorGradient(
@@ -52,31 +53,40 @@ public class HeatCell extends Cell {
         this.setTemperature(newTemperature);
     }
 
-    /*
-    TODO fix this!!!!!
-    it should spread the air diagonally up too
-    for example 0.6 of the convection going directly up and
-    0.15 up-left, 0.15 up-right, 0.05 left and 0.05 right
-    or weight these ratios somehow based on how much heat can go up
-    do some testing and playing around
-     */
     private double convection() {
+        //I know that here for would be good but its 6am
+        HeatCell downNei = (HeatCell) this.getNeighbour(Dir.DOWN);
         HeatCell upNei = (HeatCell) this.getNeighbour(Dir.UP);
         HeatCell leftNei = (HeatCell) this.getNeighbour(Dir.LEFT);
         HeatCell rightNei = (HeatCell) this.getNeighbour(Dir.RIGHT);
+        HeatCell frontNei = (HeatCell) this.getNeighbour(Dir.FRONT);
+        HeatCell backNei = (HeatCell) this.getNeighbour(Dir.BACK);
         HeatCellType myType = this.getType();
         double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
         double convectionExchange = 0;
+
         if (upNei != null) {
-            convectionExchange += max(0, this.getTemperature() - upNei.getTemperature()) * multiplicationConstant;
+            convectionExchange += min(0, upNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
+        }
+
+        if (downNei != null) {
+            convectionExchange += max(0, downNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
+        }
+
+        if (frontNei != null) {
+            convectionExchange += 0.1 * (frontNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
+        }
+
+        if (backNei != null) {
+            convectionExchange += 0.1 * (backNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
         if (leftNei != null) {
-            convectionExchange += max(0, this.getTemperature() - leftNei.getTemperature()) * multiplicationConstant;
+            convectionExchange += 0.1 * (leftNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
         if (rightNei != null) {
-            convectionExchange += max(0, this.getTemperature() - rightNei.getTemperature()) * multiplicationConstant;
+            convectionExchange += 0.1 * (rightNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
         return convectionExchange;
     }
@@ -85,7 +95,6 @@ public class HeatCell extends Cell {
         HeatCellType type = this.getType();
         double heatTransferCoef = type.getHeatTransferCoefficient();
         double heatBalance = 0;
-        // TODO fix this h as the simulation is going slowly as fck
         double cellLength = 1;
         for (Cell n : this.getNeighbours()) {
             if (n == null) continue;
@@ -109,7 +118,7 @@ public class HeatCell extends Cell {
         double expectedMinTemp = 10;
         double expectedMaxTemp = 80;
         double w1 = (temperature - expectedMinTemp) / (expectedMaxTemp - expectedMinTemp);
-        w1 = Math.min(max(w1, 0), 1);
+        w1 = min(max(w1, 0), 1);
         return gradient.getByPercentage(w1);
     }
 

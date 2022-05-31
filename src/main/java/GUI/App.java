@@ -21,7 +21,7 @@ public class App extends Application {
     private Thread simulationThread;
 
     private final int roomWidth = 60;
-    private final int roomHeight = 30;
+    private final int roomHeight = 60;
     private final int roomDepth = 30;
 
     class GUIUpdate extends TimerTask {

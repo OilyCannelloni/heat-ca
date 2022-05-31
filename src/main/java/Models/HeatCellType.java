@@ -42,7 +42,7 @@ public enum HeatCellType implements ICellType {
             case BRICK -> 900;
             case WOOD -> 2390;
             case GLASS -> 5200;
-            case HEATER -> 5;
+            case HEATER -> 466;
             case OUTSIDE -> -1;
         };
     }
@@ -101,9 +101,8 @@ public enum HeatCellType implements ICellType {
         return 0.1; //m from deinsty root
     }
     // TODO this is not a property of HeatCellType, right?
-    //that is the fastest, otherwise weird shit is happening
     public double deltaTime() {
-        return 150;
+        return 300;
     }
 
     @Override

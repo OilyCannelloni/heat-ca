@@ -46,7 +46,7 @@ public class BasicRoomHeatScenario extends Scenario{
         addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.BRICK, 10);
         addObject(grid3d, 1,width-2, 1,height-2, depth-2, depth-2, HeatCellType.BRICK, 10);
 
-        addObject(grid3d,10,50,20,25,3,4, HeatCellType.HEATER, 20);
+        addObject(grid3d,20,30,25,30,3,4, HeatCellType.HEATER, 20);
         // TODO make this heater colder as it warms up to like 300+ degrees ruining the colors
 
         addObject(grid3d,10,50,5,19,1,1, HeatCellType.GLASS, 6);
