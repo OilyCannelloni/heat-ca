@@ -24,7 +24,7 @@ public enum HeatCellType implements ICellType {
     }
 
 
-    public double getSpecificHeat() {
+    /*public double getSpecificHeat() {
         return switch (this) {
             case AIR, DEFAULT -> 1;
             case BRICK -> 2;
@@ -34,17 +34,18 @@ public enum HeatCellType implements ICellType {
             case HEATER -> 5;
             case OUTSIDE -> -1;
         };
-    }
+    }*/
 
-    /*public double getSpecificHeat() {
+    public double getSpecificHeat() {
         return switch (this) {
             case AIR, DEFAULT -> 1005;
             case BRICK -> 900;
             case WOOD -> 2390;
             case GLASS -> 5200;
-            case HEATER, OUTSIDE -> -1;
+            case HEATER -> 5;
+            case OUTSIDE -> -1;
         };
-    }*/
+    }
 
     public double getHeatGeneratingPower() {
         return 0;
@@ -75,7 +76,7 @@ public enum HeatCellType implements ICellType {
     public double getHeatGenerated() {
         return switch (this) {
             case BRICK, WOOD, GLASS, OUTSIDE, AIR, DEFAULT -> 0;
-            case HEATER -> 1;
+            case HEATER -> 1000;
         };
     }
 
@@ -97,7 +98,7 @@ public enum HeatCellType implements ICellType {
 
     // TODO this is not a property of HeatCellType, right?
     public double deltaTime() {
-        return 1;
+        return 150;
     }
 
     @Override
