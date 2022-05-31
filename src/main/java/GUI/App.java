@@ -4,8 +4,11 @@ import Models.BasicRoomHeatScenario;
 import Models.HeatScenario;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -28,6 +31,12 @@ public class App extends Application {
         @Override
         public void run() {
             Platform.runLater(() -> displayGrid.updateAll());
+        }
+    }
+
+    private void runSimulationForTicks(long ticks) {
+        while (ticks-- >= 0) {
+            this.displayGrid.gridStack.tickAllNoShuffle();
         }
     }
 
@@ -94,7 +103,16 @@ public class App extends Application {
         layerSlider.slider.setMinorTickCount(0);
         layerSlider.slider.setSnapToTicks(true);
 
-        HBox controlBox = new HBox(speedSlider, layerSlider);
+        Button fastForwardButton = new Button();
+        fastForwardButton.setText("Fast Forward 500 ticks");
+        fastForwardButton.setOnAction(event -> {
+            simulationThread.interrupt();
+            runSimulationForTicks(500);
+            simulationThread = new Thread(this::simulation);
+            simulationThread.start();
+        });
+
+        HBox controlBox = new HBox(speedSlider, layerSlider, fastForwardButton);
         controlBox.setAlignment(Pos.CENTER);
 
         VBox sceneVBox = new VBox(this.displayGrid, controlBox);

@@ -76,7 +76,7 @@ public enum HeatCellType implements ICellType {
     public double getHeatGenerated() {
         return switch (this) {
             case BRICK, WOOD, GLASS, OUTSIDE, AIR, DEFAULT -> 0;
-            case HEATER -> 1000;
+            case HEATER -> 1;
         };
     }
 
@@ -102,7 +102,7 @@ public enum HeatCellType implements ICellType {
     }
     // TODO this is not a property of HeatCellType, right?
     public double deltaTime() {
-        return 300;
+        return 600;
     }
 
     @Override

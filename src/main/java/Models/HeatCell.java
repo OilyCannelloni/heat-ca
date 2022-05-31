@@ -12,6 +12,7 @@ import static java.lang.Math.min;
 public class HeatCell extends Cell {
     private final static boolean doConvection = true;
     private double temperature;
+    private static double heaterMaxTemp = 70;
 
     private static final ColorGradient gradient = new ColorGradient(
             Color.DARKBLUE,
@@ -50,11 +51,16 @@ public class HeatCell extends Cell {
         newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         newTemperature += convectionHeatExchange;
         newTemperature += myType.getHeatGenerated();
+
+        if (this.getType() == HeatCellType.HEATER)
+            newTemperature = heaterMaxTemp;
+
         this.setTemperature(newTemperature);
     }
 
     private double convection() {
         //I know that here for would be good but its 6am
+        // Best done with directional property - but no time for that
         HeatCell downNei = (HeatCell) this.getNeighbour(Dir.DOWN);
         HeatCell upNei = (HeatCell) this.getNeighbour(Dir.UP);
         HeatCell leftNei = (HeatCell) this.getNeighbour(Dir.LEFT);

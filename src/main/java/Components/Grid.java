@@ -64,6 +64,10 @@ public class Grid implements Iterable2DGrid<Cell> {
         this.shuffledElements().forEach(cell -> cell.onTickBase(epoch++));
     }
 
+    public void tickAllNoShuffle() {
+        this.elements().forEach(cell -> cell.onTickBase(epoch++));
+    }
+
     /**
      * Binds the cells to each other
      */

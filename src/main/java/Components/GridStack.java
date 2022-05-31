@@ -34,6 +34,10 @@ public class GridStack extends ArrayList<Grid> {
         this.forEach(Grid::tickAll);
     }
 
+    public void tickAllNoShuffle() {
+        this.forEach(Grid::tickAllNoShuffle);
+    }
+
     public Cell getCell(int x, int y, int z) {
         return this.get(z).get(x, y);
     }
