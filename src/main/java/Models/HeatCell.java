@@ -46,7 +46,7 @@ public class HeatCell extends Cell {
 //            this.setTemperature(newTemperature);
 //            return;
 //        }
-        double convectionHeatExchange = doConvection ? convection() : 0;
+        double convectionHeatExchange = (doConvection && myType == HeatCellType.AIR) ? convection() : 0;
         double newTemperature = this.getTemperature();
         newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         newTemperature += convectionHeatExchange;
@@ -71,27 +71,27 @@ public class HeatCell extends Cell {
         double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
         double convectionExchange = 0;
 
-        if (upNei != null) {
+        if (upNei != null && upNei.getType() == HeatCellType.AIR) {
             convectionExchange += min(0, upNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (downNei != null) {
+        if (downNei != null && downNei.getType() == HeatCellType.AIR) {
             convectionExchange += max(0, downNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (frontNei != null) {
+        if (frontNei != null && frontNei.getType() == HeatCellType.AIR) {
             convectionExchange += 0.1 * (frontNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (backNei != null) {
+        if (backNei != null && backNei.getType() == HeatCellType.AIR) {
             convectionExchange += 0.1 * (backNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (leftNei != null) {
+        if (leftNei != null && leftNei.getType() == HeatCellType.AIR) {
             convectionExchange += 0.1 * (leftNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (rightNei != null) {
+        if (rightNei != null && rightNei.getType() == HeatCellType.AIR) {
             convectionExchange += 0.1 * (rightNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
         return convectionExchange;
