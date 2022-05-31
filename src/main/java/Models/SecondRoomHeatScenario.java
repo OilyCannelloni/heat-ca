@@ -69,9 +69,7 @@ public class SecondRoomHeatScenario extends Scenario {
 
         // adding windows
         addObject(grid3d, 1,1, 7,11, 3, 11, HeatCellType.GLASS, 20);
-
-        // adding doors
-        addObject(grid3d, 3,12, 5,17, 13, 13, HeatCellType.WOOD, 20);
+        
         return grid3d;
     }
 }
