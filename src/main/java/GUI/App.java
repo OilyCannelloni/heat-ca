@@ -3,6 +3,7 @@ package GUI;
 import Components.Scenario;
 import Models.BasicRoomHeatScenario;
 import Models.HeatScenario;
+import Models.SecondRoomHeatScenario;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -80,6 +81,7 @@ public class App extends Application {
 
     private void buildGrid() {
         scenario = new BasicRoomHeatScenario();
+        //scenario = new SecondRoomHeatScenario();
         this.displayGrid.gridStack = scenario.build(roomWidth, roomHeight, roomDepth);
     }
 

@@ -1,5 +1,8 @@
 package Components;
 
+import Models.HeatCell;
+import Models.HeatCellType;
+
 public abstract class Scenario {
     private final Class<? extends Cell> cellClass;
 
@@ -21,5 +24,16 @@ public abstract class Scenario {
 
     public String printAction() {
         return "";
+    }
+
+    public void addObject (GridStack grid3d, int xb, int xe, int yb, int ye, int zb, int ze, HeatCellType type, int temp){
+        for(int x = xb; x <= xe; x++){
+            for (int y = yb; y <= ye; y++){
+                for (int z = zb; z <= ze; z++){
+                    ((HeatCell) grid3d.getCell(x, y, z)).setType(type);
+                    ((HeatCell) grid3d.getCell(x,y,z)).setTemperature(temp);
+                }
+            }
+        }
     }
 }

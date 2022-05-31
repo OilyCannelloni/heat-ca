@@ -4,9 +4,9 @@ import Components.*;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-public class BasicRoomHeatScenario extends Scenario{
+public class SecondRoomHeatScenario extends Scenario {
     private GridStack grid3d;
-    public BasicRoomHeatScenario() {
+    public SecondRoomHeatScenario() {
         super(HeatCell.class);
     }
 
@@ -49,7 +49,7 @@ public class BasicRoomHeatScenario extends Scenario{
         addObject(grid3d, 1,width-2, 1,1, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
         addObject(grid3d, 1,width-2, height-2,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
         addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, 1,width-2, 1,height-2, depth-2, depth-2, HeatCellType.ISOLATED_WALL, 10);
+        addObject(grid3d, 2,width-3, 2,height-3, depth-2, depth-2, HeatCellType.GLASS, 20);
 
         // adding table
         addObject(grid3d, 2,12, 13,13, 2, 5, HeatCellType.WOOD, 20);
@@ -67,7 +67,7 @@ public class BasicRoomHeatScenario extends Scenario{
         // adding heater
         addObject(grid3d, 27,27, 11,15, 6, 11, HeatCellType.HEATER, 20);
 
-        // adding window
+        // adding windows
         addObject(grid3d, 1,1, 7,11, 3, 11, HeatCellType.GLASS, 20);
 
         // adding doors
