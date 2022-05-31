@@ -62,11 +62,12 @@ public class HeatCell extends Cell {
 
         for(Map.Entry<Dir, Cell> neighbour : this.getNeighbourMap().entrySet()) {
             HeatCell curNeighbour = (HeatCell) neighbour.getValue();
+            double delta_T = curNeighbour.getTemperature() - this.getTemperature();
             if (!curNeighbour.getType().isSolid()) {
                 switch (neighbour.getKey()) {
-                    case DOWN -> convectionExchange += max(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
-                    case UP -> convectionExchange += min(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
-                    case FRONT, BACK, LEFT, RIGHT -> convectionExchange += 0.1 * (curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
+                    case DOWN -> convectionExchange += max(0, delta_T) * multiplicationConstant;
+                    case UP -> convectionExchange += min(0, delta_T) * multiplicationConstant;
+                    case FRONT, BACK, LEFT, RIGHT -> convectionExchange += 0.1 * delta_T * multiplicationConstant;
                 }
             }
         }
