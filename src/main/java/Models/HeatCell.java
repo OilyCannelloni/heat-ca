@@ -46,7 +46,9 @@ public class HeatCell extends Cell {
 //            this.setTemperature(newTemperature);
 //            return;
 //        }
-        double convectionHeatExchange = (doConvection && myType == HeatCellType.AIR) ? convection() : 0;
+        /*if(!myType.isSolid())
+            System.out.println("TAK");*/
+        double convectionHeatExchange = (doConvection && !myType.isSolid()) ? convection() : 0;
         double newTemperature = this.getTemperature();
         newTemperature += myType.deltaTime() / (myType.getSpecificHeat() * myType.getDensity()) * heatExchange();
         newTemperature += convectionHeatExchange;
@@ -70,28 +72,27 @@ public class HeatCell extends Cell {
         HeatCellType myType = this.getType();
         double multiplicationConstant = myType.getArea() * myType.getConvectionCoefficient();
         double convectionExchange = 0;
-
-        if (upNei != null && upNei.getType() == HeatCellType.AIR) {
+        if (upNei != null && !upNei.getType().isSolid()) {
             convectionExchange += min(0, upNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (downNei != null && downNei.getType() == HeatCellType.AIR) {
+        if (downNei != null && !downNei.getType().isSolid()) {
             convectionExchange += max(0, downNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (frontNei != null && frontNei.getType() == HeatCellType.AIR) {
+        if (frontNei != null && !frontNei.getType().isSolid()) {
             convectionExchange += 0.1 * (frontNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (backNei != null && backNei.getType() == HeatCellType.AIR) {
+        if (backNei != null && !backNei.getType().isSolid()) {
             convectionExchange += 0.1 * (backNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (leftNei != null && leftNei.getType() == HeatCellType.AIR) {
+        if (leftNei != null && !leftNei.getType().isSolid()) {
             convectionExchange += 0.1 * (leftNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
 
-        if (rightNei != null && rightNei.getType() == HeatCellType.AIR) {
+        if (rightNei != null && !rightNei.getType().isSolid()) {
             convectionExchange += 0.1 * (rightNei.getTemperature() - this.getTemperature()) * multiplicationConstant;
         }
         return convectionExchange;
