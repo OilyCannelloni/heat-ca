@@ -48,7 +48,7 @@ public class BasicRoomHeatScenario extends Scenario{
             heatCell.setTemperature(20);
         }));
 
-//        Adding outsides
+        // adding outside
         addObject(grid3d, 0,0, 0,height-1, 0, depth-1, HeatCellType.OUTSIDE, 0);
         addObject(grid3d, width-1,width-1, 0,height-1, 0, depth-1, HeatCellType.OUTSIDE, 0);
         addObject(grid3d, 0,width-1, 0,0, 0, depth-1, HeatCellType.OUTSIDE, 0);
@@ -64,13 +64,27 @@ public class BasicRoomHeatScenario extends Scenario{
         addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.ISOLATED_WALL, 10);
         addObject(grid3d, 1,width-2, 1,height-2, depth-2, depth-2, HeatCellType.ISOLATED_WALL, 10);
 
-        addObject(grid3d,10,20,10,11,3,4, HeatCellType.HEATER, 20);
-        addObject(grid3d,10,20,10,11,10,11, HeatCellType.HEATER, 20);
-        // TODO make this heater colder as it warms up to like 300+ degrees ruining the colors
+        // adding table
+        addObject(grid3d, 2,12, 13,13, 2, 5, HeatCellType.WOOD, 20);
+        addObject(grid3d, 2,2, 13,17, 2, 2, HeatCellType.WOOD, 20);
+        addObject(grid3d, 12,12, 13,17, 2, 2, HeatCellType.WOOD, 20);
+        addObject(grid3d, 12,12, 13,17, 5, 5, HeatCellType.WOOD, 20);
+        addObject(grid3d, 2,4, 13,13, 6, 7, HeatCellType.WOOD, 20);
+        addObject(grid3d, 2,2, 13,17, 7, 7, HeatCellType.WOOD, 20);
+        addObject(grid3d, 4,4, 13,17, 7, 7, HeatCellType.WOOD, 20);
 
-        //addObject(grid3d,10,50,5,19,1,1, HeatCellType.GLASS, 6);
-        //addObject(grid3d, 15, 45, width-3, 25, 5, 11, HeatCellType.WOOD, 20);
+        // adding shelfs
+        addObject(grid3d, 18,27, 8,17, 2, 3, HeatCellType.WOOD, 20);
+        addObject(grid3d, 16,17, 8,17, 2, 9, HeatCellType.WOOD, 20);
 
+        // adding heater
+        addObject(grid3d, 27,27, 11,15, 6, 11, HeatCellType.HEATER, 100);
+
+        // adding window
+        addObject(grid3d, 1,1, 7,11, 3, 11, HeatCellType.GLASS, 20);
+
+        // adding doors
+        addObject(grid3d, 10,19, 5,17, 13, 13, HeatCellType.WOOD, 20);
         return grid3d;
     }
 }
