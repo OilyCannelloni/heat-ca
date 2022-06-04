@@ -17,7 +17,7 @@ public class SecondRoomHeatScenario extends Scenario {
         grid3d.forEach(grid -> grid.elements().forEach(
                 cell -> {
                     HeatCell heatCell = (HeatCell) cell;
-                    if (heatCell.getType() == HeatCellType.OUTSIDE || heatCell.getType() == HeatCellType.HEATER) return;
+                    if (heatCell.getType() != HeatCellType.AIR) return;
                     sum.updateAndGet(x -> x + cell.getValue());
                     count.updateAndGet(x -> x + 1);
                 }
@@ -33,23 +33,24 @@ public class SecondRoomHeatScenario extends Scenario {
         grid3d.forEach(grid -> grid.elements().forEach(cell -> {
             HeatCell heatCell = (HeatCell) cell;
             heatCell.setTemperature(20);
+            heatCell.setType(HeatCellType.AIR);
         }));
 
         // adding outside
         addObject(grid3d, 0,0, 0,height-1, 0, depth-1, HeatCellType.OUTSIDE, 0);
-        addObject(grid3d, width-1,width-1, 0,height-1, 0, depth-1, HeatCellType.OUTSIDE, 0);
-        addObject(grid3d, 0,width-1, 0,0, 0, depth-1, HeatCellType.OUTSIDE, 0);
-        addObject(grid3d, 0,width-1, height-1,height-1, 0, depth-1, HeatCellType.OUTSIDE, 0);
-        addObject(grid3d, 0,width-1, 0,height-1, 0, 0, HeatCellType.OUTSIDE, 0);
-        addObject(grid3d, 0,width-1, 0,height-1, depth-1, depth-1, HeatCellType.OUTSIDE, 0);
+        addObject(grid3d, width-1,width-1, 0,height-1, 0, depth-1, HeatCellType.OUTSIDE, 15);
+        addObject(grid3d, 0,width-1, 0,0, 0, depth-1, HeatCellType.OUTSIDE, 15);
+        addObject(grid3d, 0,width-1, height-1,height-1, 0, depth-1, HeatCellType.OUTSIDE, 15);
+        addObject(grid3d, 0,width-1, 0,height-1, 0, 0, HeatCellType.OUTSIDE, 15);
+        addObject(grid3d, 0,width-1, 0,height-1, depth-1, depth-1, HeatCellType.OUTSIDE, 15);
 
 //        Adding brick walls
-        addObject(grid3d, 1,1, 1,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, width-2,width-2, 1,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, 1,width-2, 1,1, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, 1,width-2, height-2,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.ISOLATED_WALL, 10);
-        addObject(grid3d, 2,width-3, 2,height-3, depth-2, depth-2, HeatCellType.GLASS, 20);
+        addObject(grid3d, 1,1, 1,height-2, 1, depth-2, HeatCellType.BRICK, 15);
+        addObject(grid3d, width-2,width-2, 1,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 15);
+        addObject(grid3d, 1,width-2, 1,1, 1, depth-2, HeatCellType.ISOLATED_WALL, 15);
+        addObject(grid3d, 1,width-2, height-2,height-2, 1, depth-2, HeatCellType.ISOLATED_WALL, 15);
+        addObject(grid3d, 1,width-2, 1,height-2, 1, 1, HeatCellType.ISOLATED_WALL, 15);
+        addObject(grid3d, 2,width-3, 2,height-3, depth-2, depth-2, HeatCellType.ISOLATED_WALL, 15);
 
         // adding table
         addObject(grid3d, 2,12, 13,13, 2, 5, HeatCellType.WOOD, 20);

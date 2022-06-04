@@ -80,8 +80,8 @@ public class App extends Application {
     }
 
     private void buildGrid() {
-        scenario = new BasicRoomHeatScenario();
-        //scenario = new SecondRoomHeatScenario();
+//        scenario = new BasicRoomHeatScenario();
+        scenario = new SecondRoomHeatScenario();
         this.displayGrid.gridStack = scenario.build(roomWidth, roomHeight, roomDepth);
     }
 
@@ -92,7 +92,7 @@ public class App extends Application {
     private void createGUI() {
         NamedValueSlider speedSlider = new NamedValueSlider("Simulation Speed [ticks/s]", 1, 100, 5);
         speedSlider.slider.valueProperty().addListener(
-                (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 9
+                (observable, oldValue, newValue) -> simulationUpdatePause = 1000/newValue.intValue() - 10
         );
         speedSlider.slider.setShowTickLabels(true);
         speedSlider.slider.setShowTickMarks(true);

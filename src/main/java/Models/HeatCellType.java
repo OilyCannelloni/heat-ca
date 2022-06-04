@@ -46,7 +46,7 @@ public enum HeatCellType implements ICellType {
             case GLASS -> 5200;
             case HEATER -> 466;
             case OUTSIDE -> -1;
-            case ISOLATED_WALL -> 900;
+            case ISOLATED_WALL -> 10000;
         };
     }
 
@@ -56,14 +56,14 @@ public enum HeatCellType implements ICellType {
 
     public double getHeatTransferCoefficient() {
         return switch (this) {
-            case AIR, DEFAULT -> 0.025;
+            case AIR, DEFAULT -> 0.05;
             case BRICK -> 0.57;
             case WOOD -> 0.32;
             case GLASS -> 1.1;
 //            Assuming HEATER is made of steel
             case HEATER -> 50;
             case OUTSIDE -> -1;
-            case ISOLATED_WALL -> 0.003;
+            case ISOLATED_WALL -> 0.001;
         };
     }
 

@@ -62,11 +62,12 @@ public class HeatCell extends Cell {
 
         for(Map.Entry<Dir, Cell> neighbour : this.getNeighbourMap().entrySet()) {
             HeatCell curNeighbour = (HeatCell) neighbour.getValue();
+            double deltaT = (curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
             if (!curNeighbour.getType().isSolid()) {
                 switch (neighbour.getKey()) {
-                    case DOWN -> convectionExchange += max(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
-                    case UP -> convectionExchange += min(0, curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
-                    case FRONT, BACK, LEFT, RIGHT -> convectionExchange += 0.1 * (curNeighbour.getTemperature() - this.getTemperature()) * multiplicationConstant;
+                    case DOWN -> convectionExchange += max(0, deltaT);
+                    case UP -> convectionExchange += min(0, deltaT);
+                    case FRONT, BACK, LEFT, RIGHT -> convectionExchange += deltaT >= 0 ? 0.02 * deltaT : 0;
                 }
             }
         }
@@ -97,8 +98,8 @@ public class HeatCell extends Cell {
 
     @Override
     public Color getColor() {
-        double expectedMinTemp = 10;
-        double expectedMaxTemp = 80;
+        double expectedMinTemp = 0;
+        double expectedMaxTemp = 40;
         double w1 = (temperature - expectedMinTemp) / (expectedMaxTemp - expectedMinTemp);
         w1 = min(max(w1, 0), 1);
         return gradient.getByPercentage(w1);
